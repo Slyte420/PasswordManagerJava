@@ -1,3 +1,5 @@
+package Encryption;
+
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
@@ -14,7 +16,7 @@ import java.util.Base64;
 
 public class AES {
 
-    private final static String algorithm = "AES/CBC/PKCS5Padding";
+    private final static String algorithm = "Encryption.AES/CBC/PKCS5Padding";
     private static AES instance;
 
     private IvParameterSpec iv;
@@ -63,7 +65,7 @@ public class AES {
             KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
 
             return new SecretKeySpec(factory.generateSecret(spec)
-                    .getEncoded(), "AES");
+                    .getEncoded(), "Encryption.AES");
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
                 System.out.println("Error getKeyFromPassword");
         }

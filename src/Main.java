@@ -1,9 +1,10 @@
 import Launcher.Launcher;
+import User.EntryGeneral;
 
 public class Main {
     public static void main(String[] args) {
         /*final String password = "azta geci";
-        AES instance = AES.getInstance();
+        Encryption.AES instance = Encryption.AES.getInstance();
         instance.init(password);
         String encrypted = instance.encrypt("Bro");
         System.out.println(encrypted);
@@ -12,7 +13,9 @@ public class Main {
         instance.init("lol");
         decrypt = instance.decrypt(encrypted);
         System.out.println(decrypt);*/
-        new Launcher();
-
+        //new Launcher();
+        EntryGeneral a = new EntryGeneral("Lol");
+        a.setPassword("lol");
+        System.out.println(a.getPassword());
     }
 }
