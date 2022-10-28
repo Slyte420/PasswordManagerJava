@@ -1,9 +1,11 @@
 package Encryption;
 
 import javax.crypto.*;
+import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -14,36 +16,46 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
-public class AES {
+public class AES implements Encryption {
 
-    private final static String algorithm = "Encryption.AES/CBC/PKCS5Padding";
-    private static AES instance;
-
-    private IvParameterSpec iv;
+    public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
+    private KeySpec ks;
+    private SecretKeyFactory skf;
+    private Cipher cipher;
+    byte[] arrayBytes;
+    private String myEncryptionKey;
+    private String myEncryptionScheme;
     private SecretKey key;
-
-    private SecureRandom sr;
-    private String salt;
-
+    public static AES instance;
     private AES() {
     }
 
-    public void init(String password){
-        byte[] seed = getSeed(password);
-        sr = new SecureRandom(seed);
-        iv = generateIV();
-        salt = generateSalt();
-        key = getKeyFromPassword(password);
-    }
-    private byte[] getSeed(String password) {
-        return Base64.getEncoder().encode(password.getBytes(StandardCharsets.UTF_8));
+    public void init(String password) {
+        //#TODO key must be 24 bytes or char
+        myEncryptionKey = password;
+        myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
+        arrayBytes = myEncryptionKey.getBytes();
+        initSpecs();
+
     }
 
-    private String generateSalt() {
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        return Arrays.toString(salt);
+    private void initSpecs() {
+        try {
+            ks = new DESedeKeySpec(arrayBytes);
+            skf = SecretKeyFactory.getInstance(myEncryptionScheme);
+            cipher = Cipher.getInstance(myEncryptionScheme);
+            key = skf.generateSecret(ks);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchPaddingException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     public static AES getInstance() {
         if (instance == null) {
@@ -52,53 +64,42 @@ public class AES {
         return instance;
     }
 
-    private IvParameterSpec generateIV() {
-        byte[] iv = new byte[16];
-        sr.nextBytes(iv);
-        return new IvParameterSpec(iv);
-    }
 
-    private SecretKey getKeyFromPassword(String password) {
-        try {
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
 
-            return new SecretKeySpec(factory.generateSecret(spec)
-                    .getEncoded(), "Encryption.AES");
-        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-                System.out.println("Error getKeyFromPassword");
+    public <T> T encrypt(T input) {
+        if (input instanceof String) {
+            try {
+                String a = (String) input;
+                cipher.init(Cipher.ENCRYPT_MODE, key);
+                byte[] bytesText = a.getBytes(StandardCharsets.UTF_8);
+                byte[] encrypted = new byte[0];
+                encrypted = cipher.doFinal(bytesText);
+                return (T) new String(Base64.getEncoder().encode(encrypted));
+            } catch (IllegalBlockSizeException e) {
+                throw new RuntimeException(e);
+            } catch (BadPaddingException e) {
+                throw new RuntimeException(e);
+            } catch (InvalidKeyException e) {
+                throw new RuntimeException(e);
+            }
         }
         return null;
     }
 
-    public String encrypt(String input) {
+    public <T> T decrypt(T encrypt) {
+        if (encrypt instanceof String) {
+            try {
 
-        try {
-            Cipher cipher = Cipher.getInstance(algorithm);
-            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-            byte[] cipherText = cipher.doFinal(input.getBytes());
-            return Base64.getEncoder()
-                    .encodeToString(cipherText);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException |
-                 InvalidAlgorithmParameterException | InvalidKeyException |
-                 BadPaddingException | IllegalBlockSizeException e) {
-            System.out.println("Wrong password");
-        }
-        return null;
-    }
+                String a = (String) encrypt;
+                cipher.init(cipher.DECRYPT_MODE,key);
+                byte[] encrypted = Base64.getDecoder().decode(a);
+                byte[] bytesText = cipher.doFinal(encrypted);
 
-    public String decrypt(String cipherText) {
-        try {
-            Cipher cipher = Cipher.getInstance(algorithm);
-            cipher.init(Cipher.DECRYPT_MODE, key, iv);
-            byte[] plainText = cipher.doFinal(Base64.getDecoder()
-                    .decode(cipherText));
-            return new String(plainText);
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException |
-                 InvalidAlgorithmParameterException | InvalidKeyException |
-                 BadPaddingException | IllegalBlockSizeException e) {
-            System.out.println("Wrong password");
+                return (T) new String(bytesText);
+            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+                System.out.println("Decryption went bad");
+            }
         }
         return null;
     }

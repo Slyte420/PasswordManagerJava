@@ -3,19 +3,21 @@ import User.EntryGeneral;
 
 public class Main {
     public static void main(String[] args) {
-        /*final String password = "azta geci";
+        final String password = "aztageciaztageciaztageciaztageciaztageciaztageci";
         Encryption.AES instance = Encryption.AES.getInstance();
         instance.init(password);
         String encrypted = instance.encrypt("Bro");
         System.out.println(encrypted);
         String decrypt = instance.decrypt(encrypted);
         System.out.println(decrypt);
-        instance.init("lol");
+        instance.init(password);
+        encrypted = instance.encrypt("Bro");
+        System.out.println(encrypted);
         decrypt = instance.decrypt(encrypted);
-        System.out.println(decrypt);*/
+        System.out.println(decrypt);
         //new Launcher();
-        EntryGeneral a = new EntryGeneral("Lol");
+        /*EntryGeneral a = new EntryGeneral("Lol");
         a.setPassword("lol");
-        System.out.println(a.getPassword());
+        System.out.println(a.getPassword());*/
     }
 }
