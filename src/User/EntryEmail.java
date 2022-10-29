@@ -29,4 +29,14 @@ public class EntryEmail extends Entry {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + username + " " + password + " " + email;
+    }
 }

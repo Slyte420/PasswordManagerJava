@@ -1,5 +1,7 @@
 package User;
 
+import RandomPasswordGenerator.PassGen;
+
 public class Entry {
     protected String username;
     protected String password;
@@ -8,6 +10,7 @@ public class Entry {
     public static int getID() {
         return ID;
     }
+
     public Entry(String username, String password) {
         this.username = username;
         this.password = password;
@@ -16,11 +19,11 @@ public class Entry {
 
     public Entry(String username) {
         this.username = username;
-        //TODO: Random password
+        this.password = new String(new PassGen().generatePassword(24));
     }
 
-    public Entry(){
-        //TODO: Random password
+    public Entry() {
+        this.password = new String(new PassGen().generatePassword(24));
     }
 
     public void setPassword(String password) {
@@ -43,13 +46,29 @@ public class Entry {
     public boolean equals(Object obj) {
         if (obj instanceof Entry && obj != null) {
             Entry o = (Entry) obj;
-            return (this.username == o.password && this.password == o.password);
+            boolean user = false;
+            boolean password = false;
+            if (o.username == null && this.username == null) {
+                user = true;
+            } else {
+                if (o.username != null && this.username != null) {
+                    user = o.username.equals(this.username);
+                }
+            }
+            if (o.password == null && this.password == null) {
+                password = true;
+            } else {
+                if (o.password != null && this.password != null) {
+                    password = o.password.equals(this.password);
+                }
+            }
+            return (user && password);
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return username + " " + password;
+        return ID + " " + username + " " + password;
     }
 }

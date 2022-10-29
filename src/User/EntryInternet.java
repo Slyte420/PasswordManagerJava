@@ -29,4 +29,14 @@ public class EntryInternet extends Entry{
     public static int getID() {
         return ID;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return ID + " " + username + " " + password + " " + URL;
+    }
 }

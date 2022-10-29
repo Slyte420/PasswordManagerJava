@@ -2,21 +2,14 @@ package Encryption;
 
 import javax.crypto.*;
 import javax.crypto.spec.DESedeKeySpec;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 import java.util.Base64;
 
-public class AES implements Encryption {
+public class DES implements Encryption {
 
     public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
     private KeySpec ks;
@@ -26,8 +19,8 @@ public class AES implements Encryption {
     private String myEncryptionKey;
     private String myEncryptionScheme;
     private SecretKey key;
-    public static AES instance;
-    private AES() {
+    public static DES instance;
+    private DES() {
     }
 
     public void init(String password) {
@@ -57,9 +50,9 @@ public class AES implements Encryption {
     }
 
 
-    public static AES getInstance() {
+    public static DES getInstance() {
         if (instance == null) {
-            instance = new AES();
+            instance = new DES();
         }
         return instance;
     }
@@ -73,8 +66,7 @@ public class AES implements Encryption {
                 String a = (String) input;
                 cipher.init(Cipher.ENCRYPT_MODE, key);
                 byte[] bytesText = a.getBytes(StandardCharsets.UTF_8);
-                byte[] encrypted = new byte[0];
-                encrypted = cipher.doFinal(bytesText);
+                byte[] encrypted = cipher.doFinal(bytesText);
                 return (T) new String(Base64.getEncoder().encode(encrypted));
             } catch (IllegalBlockSizeException e) {
                 throw new RuntimeException(e);
