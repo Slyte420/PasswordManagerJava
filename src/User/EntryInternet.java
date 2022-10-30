@@ -2,7 +2,7 @@ package User;
 
 public class EntryInternet extends Entry{
     private String URL;
-    private static final int ID = 2;
+    private static final int ID = IDs.ENTRYINTRENET.getID();
     public EntryInternet(String username, String password,String URL){
         super(username, password);
         this.URL = URL;

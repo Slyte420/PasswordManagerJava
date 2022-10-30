@@ -6,7 +6,7 @@ import RandomPasswordGenerator.PassGenException;
 public class Entry {
     protected String username;
     protected String password;
-    private static final int ID = 0;
+    private static final int ID = IDs.ENTRY.getID();
 
     public static int getID() {
         return ID;

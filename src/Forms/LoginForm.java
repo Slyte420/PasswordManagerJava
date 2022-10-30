@@ -14,7 +14,7 @@ public class LoginForm implements Form {
 
     private JPasswordField pleaseEnterYourMasterPasswordField;
     private JButton loginButton;
-    private JLabel LabelLogin;
+    private JLabel errorLabel;
     private JButton loadButton;
     private JButton backButton;
     private Dictionary panels;

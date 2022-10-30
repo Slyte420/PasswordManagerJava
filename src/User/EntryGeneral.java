@@ -3,7 +3,7 @@ package User;
 public class EntryGeneral extends Entry {
     private String notes;
 
-    private final static int ID = 1;
+    private final static int ID = IDs.ENTRYGENERAL.getID();
 
 
     public EntryGeneral(String username, String password, String notes) {

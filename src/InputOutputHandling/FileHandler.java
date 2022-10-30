@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
 import static java.nio.file.StandardOpenOption.APPEND;
@@ -38,9 +39,24 @@ public class FileHandler {
         }
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = new File(folderPath + filePath).toPath();
+    public void setFilePath(String filePath) throws FileNameInvalid {
+        File file = new File(folderPath + filePath);
+            try{
+            this.filePath = file.toPath();
+            }
+            catch (InvalidPathException e){
+                throw new FileNameInvalid("File name invalid");
+            }
+    }
 
+    public boolean doesFileExist()throws FilePathIsNullException{
+        if(filePath == null){
+            throw new FilePathIsNullException("File path is null");
+        }
+        else{
+            File file = filePath.toFile();
+            return file.exists();
+        }
     }
 
     public Path getFilePath() {

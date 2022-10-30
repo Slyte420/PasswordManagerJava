@@ -1,7 +1,7 @@
 package User;
 
 public class EntryEmail extends Entry {
-    private static final int ID = 3;
+    private static final int ID = IDs.ENTRYEMAIL.getID();
     private String email;
     public EntryEmail(String username, String password,String email){
         super(username, password);

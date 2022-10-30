@@ -4,12 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PasswordMenu implements Form{
-    private JPanel panel1;
+    private JPanel mainPanel;
     private JTabbedPane tabbedPane1;
     private JButton addButton;
     private JButton editButton;
     private JButton deleteButton;
     private JButton insertButton;
+    private JPanel bottomPanel;
+    private JPanel topPanel;
+    private JButton button1;
+    private JButton setMasterPasswordButton;
 
     private final String name = "PasswordMenu";
     public static void main(String[] args) {
@@ -28,10 +32,10 @@ public class PasswordMenu implements Form{
 
     @Override
     public JPanel getPanel() {
-        return panel1;
+        return mainPanel;
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+        // TODO: place custom component creation code here Tabbed pane
     }
 }

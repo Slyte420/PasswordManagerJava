@@ -7,6 +7,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 import java.util.Base64;
 
 public class DES implements Encryption {
@@ -15,8 +16,8 @@ public class DES implements Encryption {
     private KeySpec ks;
     private SecretKeyFactory skf;
     private Cipher cipher;
-    byte[] arrayBytes;
-    private String myEncryptionKey;
+    private byte[] arrayBytes;
+    private char[] password;
     private String myEncryptionScheme;
     private SecretKey key;
     public static DES instance;
@@ -24,11 +25,15 @@ public class DES implements Encryption {
     private DES() {
     }
 
-    public void init(String password) {
+    public void init(char[] password) {
         //#TODO key must be 24 bytes or char
-        myEncryptionKey = password;
         myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
-        arrayBytes = myEncryptionKey.getBytes();
+        arrayBytes = new byte[24];
+        int length = password.length;
+        for (int i = 0; i < length; ++i) {
+            arrayBytes[i] = (byte) password[i];
+        }
+        //Arrays.fill(password, (char) 0);
         initSpecs();
 
     }
@@ -36,6 +41,7 @@ public class DES implements Encryption {
     private void initSpecs() {
         try {
             ks = new DESedeKeySpec(arrayBytes);
+            Arrays.fill(arrayBytes, (byte) 0);
             skf = SecretKeyFactory.getInstance(myEncryptionScheme);
             cipher = Cipher.getInstance(myEncryptionScheme);
             key = skf.generateSecret(ks);
@@ -75,6 +81,25 @@ public class DES implements Encryption {
             }
         }
         return null;
+    }
+
+    public char[] encrypt(char[] a){
+        try {
+            byte []bytesText = new byte[a.length];
+            for (int i = 0; i < a.length; ++i) {
+                bytesText[i] = (byte) password[i];
+            }
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encrypted = cipher.doFinal(bytesText);
+            return new String(Base64.getEncoder().encode(encrypted)).toCharArray();
+        } catch (IllegalBlockSizeException e) {
+            throw new RuntimeException(e);
+        } catch (BadPaddingException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public <T> T decrypt(T encrypt) {
