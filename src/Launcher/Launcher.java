@@ -2,7 +2,9 @@ package Launcher;
 
 import Forms.CreateForm;
 import Forms.Form;
+import Forms.LoginForm;
 import Forms.MainMenuForm;
+import Model.PasswordManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +17,9 @@ public class Launcher {
     private Dictionary dictForm;
     private ArrayList<Form> forms;
     private JPanel parentPanel;
+    private PasswordManagerModel model;
     public Launcher(){
+        this.model = new PasswordManagerModel();
         mainFrame = new JFrame();
         dictForm = new Hashtable();
         forms = new ArrayList<Form>();
@@ -39,6 +43,7 @@ public class Launcher {
     }
     private void initform(){
         forms.add(new MainMenuForm(parentPanel,dictForm));
-        forms.add(new CreateForm(parentPanel,dictForm));
+        forms.add(new CreateForm(parentPanel,dictForm,model));
+        forms.add(new LoginForm(parentPanel,dictForm,model));
     }
 }

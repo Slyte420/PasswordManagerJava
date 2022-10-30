@@ -1,6 +1,7 @@
 package User;
 
 import RandomPasswordGenerator.PassGen;
+import RandomPasswordGenerator.PassGenException;
 
 public class Entry {
     protected String username;
@@ -19,11 +20,19 @@ public class Entry {
 
     public Entry(String username) {
         this.username = username;
-        this.password = new String(new PassGen().generatePassword(24));
+        try {
+            this.password = new String(new PassGen().generatePassword(24));
+        } catch (PassGenException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Entry() {
-        this.password = new String(new PassGen().generatePassword(24));
+        try {
+            this.password = new String(new PassGen().generatePassword(24));
+        } catch (PassGenException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setPassword(String password) {

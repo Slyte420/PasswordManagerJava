@@ -122,7 +122,7 @@ public class PassGen {
         return false;
     }
 
-    public char[] generatePassword(int length){
+    public char[] generatePassword(int length) throws PassGenException {
         char[] password = new char[length];
         String combinedchar = "";
         if(lower){
@@ -144,7 +144,7 @@ public class PassGen {
         Random rand = new SecureRandom();
         int bound = combinedchar.length();
         if(bound <= 0){
-
+            throw new PassGenException("No characters to select from");
         }
         for(int i = 0; i < length; ++i){
             password[i] = combinedchar.charAt(rand.nextInt(bound));

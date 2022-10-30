@@ -20,6 +20,7 @@ public class DES implements Encryption {
     private String myEncryptionScheme;
     private SecretKey key;
     public static DES instance;
+
     private DES() {
     }
 
@@ -57,9 +58,6 @@ public class DES implements Encryption {
         return instance;
     }
 
-
-
-
     public <T> T encrypt(T input) {
         if (input instanceof String) {
             try {
@@ -84,7 +82,7 @@ public class DES implements Encryption {
             try {
 
                 String a = (String) encrypt;
-                cipher.init(cipher.DECRYPT_MODE,key);
+                cipher.init(cipher.DECRYPT_MODE, key);
                 byte[] encrypted = Base64.getDecoder().decode(a);
                 byte[] bytesText = cipher.doFinal(encrypted);
 
@@ -94,5 +92,10 @@ public class DES implements Encryption {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "DES";
     }
 }

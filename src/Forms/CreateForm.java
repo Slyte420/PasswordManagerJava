@@ -1,5 +1,7 @@
 package Forms;
 
+import Model.PasswordManagerModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,18 +16,26 @@ public class CreateForm implements Form {
     private JButton createButton;
     private JLabel fileNameLabel;
     private JButton backButton;
+    private JLabel ErrorLabel;
     private  Dictionary panels;
+    private PasswordManagerModel model;
     private final Dimension size = new Dimension(650,550);
     private final String name ="Create";
-    public CreateForm(JPanel parent,Dictionary panels){
+    public CreateForm(JPanel parent,Dictionary panels,PasswordManagerModel model){
         this.parent = parent;
         this.panels = panels;
-
+        this.model = model;
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout) parent.getLayout();
                 cl.show(parent,(String) panels.get(0));
+            }
+        });
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }

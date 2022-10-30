@@ -26,6 +26,13 @@ public class MainMenuForm implements Form {
                cl.show(parent,(String) panels.get(1));
             }
         });
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cl =(CardLayout) (parent.getLayout());
+                cl.show(parent,(String) panels.get(2));
+            }
+        });
     }
 
     @Override

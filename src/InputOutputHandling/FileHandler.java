@@ -11,22 +11,57 @@ import static java.nio.file.StandardOpenOption.CREATE;
 
 public class FileHandler {
 
-    private final String folderPath = "Data/";
+    private String folderPath = "Data/";
     private Path filePath;
 
-    public FileHandler(String filePath) {
-        this.filePath = new File(folderPath+filePath).toPath();
+    public FileHandler(String filePath, String folderPath) {
+        this.folderPath = folderPath;
+        this.filePath = new File(folderPath + filePath).toPath();
         File file = new File(folderPath);
         if (!file.exists()) {
             file.mkdir();
         }
+    }
+
+    public FileHandler(String filePath) {
+        this.filePath = new File(folderPath + filePath).toPath();
+        File file = new File(folderPath);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+    }
+
+    public FileHandler() {
+        File file = new File(folderPath);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = new File(folderPath + filePath).toPath();
 
     }
 
-    public void write(String line) {
+    public Path getFilePath() {
+        return filePath;
+    }
+
+    public String getFolderPath() {
+        return folderPath;
+    }
+
+    public void setFolderPath(String folderPath) {
+        this.folderPath = folderPath;
+    }
+
+    public void write(String line) throws FilePathIsNullException {
+        if(filePath == null){
+            throw new FilePathIsNullException("No file selected");
+        }
         try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(filePath, CREATE, APPEND));
         ) {
-            if(line.charAt(line.length()-1) != '\n'){
+            if (line.charAt(line.length() - 1) != '\n') {
                 line = line + "\n";
             }
             out.write(line.getBytes(StandardCharsets.UTF_8));
@@ -35,18 +70,31 @@ public class FileHandler {
         }
     }
 
-    public String read(int linenumber){
-        try(BufferedReader in = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))){
+    public String read(int linenumber) throws FilePathIsNullException {
+        if(filePath == null){
+            throw new FilePathIsNullException("No file selected");
+        }
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))) {
             String line = null;
-            for(int i = 1; i <= linenumber && (line = in.readLine()) != null; ++i){
+            for (int i = 1; i <= linenumber && (line = in.readLine()) != null; ++i) {
 
             }
             return line;
-        }
-        catch (java.io.IOException e){
+        } catch (java.io.IOException e) {
             throw new RuntimeException("Can't open the file");
         }
     }
 
+    @Override
+    public String toString() {
+        return filePath.toString();
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof FileHandler){
+            return filePath.equals(((FileHandler) obj).filePath);
+        }
+        return false;
+    }
 }

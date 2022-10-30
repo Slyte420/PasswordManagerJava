@@ -1,5 +1,7 @@
 import Encryption.DES;
 import InputOutputHandling.FileHandler;
+import InputOutputHandling.FilePathIsNullException;
+import Model.PasswordManagerModel;
 import RandomPasswordGenerator.PassGen;
 import User.EntryGeneral;
 
@@ -20,13 +22,14 @@ public class Main {
         System.out.println(encrypted);
         decrypt = instance.decrypt(encrypted);
         System.out.println(decrypt);*/
-        //new Launcher.Launcher();
+        new Launcher.Launcher();
         /*PassGen a = new PassGen();
         a.generatePassword(15);
         System.out.println(new File("a.in").toString());*/
-        FileHandler fileHandler = new FileHandler("a.in");
+        //FileHandler fileHandler = new FileHandler();
         //EntryGeneral user = new EntryGeneral();
         //System.out.println(user.toString());
-        System.out.println(fileHandler.read(4));
+        //PasswordManagerModel model = new PasswordManagerModel();
+
     }
 }
