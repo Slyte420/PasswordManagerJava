@@ -10,7 +10,7 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
-public class DES implements Encryption {
+public class DES<T> implements Encryption {
 
     public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
     private KeySpec ks;
@@ -59,7 +59,7 @@ public class DES implements Encryption {
 
     public static DES getInstance() {
         if (instance == null) {
-            instance = new DES();
+            instance = new DES<String>();
         }
         return instance;
     }

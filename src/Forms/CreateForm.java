@@ -2,12 +2,14 @@ package Forms;
 
 import InputOutputHandling.FileNameInvalid;
 import InputOutputHandling.FilePathIsNullException;
+import Launcher.FormsID;
 import Model.PasswordManagerModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Dictionary;
 
 public class CreateForm implements Form {
@@ -24,15 +26,15 @@ public class CreateForm implements Form {
     private final Dimension size = new Dimension(650, 550);
     private final String name = "Create";
 
-    public CreateForm(JPanel parent, Dictionary panels, PasswordManagerModel model) {
+    public CreateForm(JPanel parent, Dictionary panels) {
         this.parent = parent;
         this.panels = panels;
-        this.model = model;
+        this.model = PasswordManagerModel.getInstance();
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout) parent.getLayout();
-                cl.show(parent, (String) panels.get(0));
+                cl.show(parent, (String) panels.get(FormsID.MAINMENU.getID()));
             }
         });
         createButton.addActionListener(new ActionListener() {
@@ -52,7 +54,10 @@ public class CreateForm implements Form {
                             } else {
                                 model.getInstanceEnc().init(password);
                                 model.getFileHandler().write( new String(model.getInstanceEnc().encrypt(password)));
+                                Arrays.fill(password,(char)0);
                                 //TODO switch to password menu
+                                CardLayout cl = (CardLayout) parent.getLayout();
+                                cl.show(parent,(String) panels.get(FormsID.PASSWORDMENU.getID()));
                             }
                         } catch (FileNameInvalid exc) {
                             ErrorLabel.setText(exc.getMessage());
