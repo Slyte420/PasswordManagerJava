@@ -12,25 +12,18 @@ public class PasswordManagerModel {
     private FileHandler fileHandler;
     private Encryption instanceEnc;
 
-    public PasswordManagerModel(){
+    private static PasswordManagerModel instance;
+
+    private PasswordManagerModel(){
         entries = new ArrayList<Entry>();
         fileHandler = new FileHandler();
         instanceEnc = DES.getInstance();
     }
-    public PasswordManagerModel(ArrayList<Entry> entries,FileHandler fileHandler, Encryption instanceEnc){
-        this.entries = entries;
-        this.fileHandler = fileHandler;
-        this.instanceEnc = instanceEnc;
-    }
-    public PasswordManagerModel(FileHandler fileHandler){
-        entries = new ArrayList<Entry>();
-        fileHandler = fileHandler;
-        instanceEnc = DES.getInstance();
-    }
-    public PasswordManagerModel(ArrayList<Entry> entries){
-        this.entries = entries;
-        fileHandler = new FileHandler();
-        instanceEnc = DES.getInstance();
+    public static PasswordManagerModel getInstance(){
+        if(instance == null){
+            instance = new PasswordManagerModel();
+        }
+        return instance;
     }
 
     public ArrayList<Entry> getEntries() {

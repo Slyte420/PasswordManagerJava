@@ -1,9 +1,13 @@
 package Forms;
 
+import Model.PasswordManagerModel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Dictionary;
 
 public class PasswordMenu implements Form{
+    private JPanel parent;
     private JPanel mainPanel;
     private JTabbedPane tabbedPane1;
     private JButton addButton;
@@ -14,17 +18,18 @@ public class PasswordMenu implements Form{
     private JPanel topPanel;
     private JButton button1;
     private JButton setMasterPasswordButton;
+    private JTable table1;
 
+    private Dictionary panels;
+    private PasswordManagerModel model;
     private final String name = "PasswordMenu";
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        PasswordMenu menu = new PasswordMenu();
-        frame.setContentPane(menu.getPanel());
-        frame.setMinimumSize(new Dimension(800,600));
-        frame.setResizable(false);
-        frame.setVisible(true);
-    }
 
+
+    public PasswordMenu(JPanel parent, Dictionary panels){
+        this.parent = parent;
+        this.panels = panels;
+        model = PasswordManagerModel.getInstance();
+    }
     @Override
     public String getCardName() {
         return name;

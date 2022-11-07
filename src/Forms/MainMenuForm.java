@@ -1,5 +1,7 @@
 package Forms;
 
+import Launcher.FormsID;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,14 +25,14 @@ public class MainMenuForm implements Form {
             @Override
             public void actionPerformed(ActionEvent e) {
                CardLayout cl =(CardLayout) (parent.getLayout());
-               cl.show(parent,(String) panels.get(1));
+               cl.show(parent,(String) panels.get(FormsID.CREATE.getID()));
             }
         });
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl =(CardLayout) (parent.getLayout());
-                cl.show(parent,(String) panels.get(2));
+                cl.show(parent,(String) panels.get(FormsID.LOGIN.getID()));
             }
         });
     }
