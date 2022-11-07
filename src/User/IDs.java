@@ -2,9 +2,9 @@ package User;
 
 public enum IDs {
     ENTRY("Entry",0, new String[]{"Username", "Password"}),
-    ENTRYINTRENET("Internet",1,new String[]{"Username", "Password"}),
-    ENTRYEMAIL("Email",2,new String[]{"Username", "Password"}),
-    ENTRYGENERAL("General",3,new String[]{"Username", "Password"});
+    ENTRYINTRENET("Internet",1,new String[]{"Username", "Password","URL"}),
+    ENTRYEMAIL("Email",2,new String[]{"Username", "Password","Email"}),
+    ENTRYGENERAL("General",3,new String[]{"Username", "Password","Notes"});
 
     private final String name;
     private final int ID;

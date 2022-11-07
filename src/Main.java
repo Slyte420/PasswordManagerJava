@@ -1,17 +1,9 @@
-import Encryption.DES;
-import InputOutputHandling.FileHandler;
-import InputOutputHandling.FilePathIsNullException;
-import Model.PasswordManagerModel;
-import RandomPasswordGenerator.PassGen;
-import User.Entry;
-import User.EntryGeneral;
 
-import java.io.File;
-import java.util.ArrayList;
+import Forms.AddEntryDialog;
 
 public class Main {
     public static void main(String[] args) {
-
+        new AddEntryDialog();
         /*DES instance = DES.getInstance();
         instance.init("a".toCharArray());
         char[] encoded = instance.encrypt("lol".toCharArray());
@@ -20,7 +12,7 @@ public class Main {
         System.out.println(decoded);
         decoded = instance.decrypt(encoded);
         System.out.println(decoded);*/
-        new Launcher.Launcher();
+        //new Launcher.Launcher();
         /*PassGen a = new PassGen();
         a.generatePassword(15);
         System.out.println(new File("a.in").toString());*/
