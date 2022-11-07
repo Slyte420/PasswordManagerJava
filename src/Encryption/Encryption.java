@@ -2,6 +2,9 @@ package Encryption;
 
 public interface Encryption {
     public void init(char[] password);
-    <T> T encrypt(T input);
-    <T> T decrypt(T encrypt);
+    String encrypt(String input);
+
+    char[] encrypt(char[] encrypt);
+    String decrypt(String encrypt);
+    char[] decrypt(char[] a);
 }

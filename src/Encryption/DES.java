@@ -64,59 +64,75 @@ public class DES implements Encryption {
         return instance;
     }
 
-    public <T> T encrypt(T input) {
-        if (input instanceof String) {
-            try {
-                String a = (String) input;
-                cipher.init(Cipher.ENCRYPT_MODE, key);
-                byte[] bytesText = a.getBytes(StandardCharsets.UTF_8);
-                byte[] encrypted = cipher.doFinal(bytesText);
-                return (T) new String(Base64.getEncoder().encode(encrypted));
-            } catch (IllegalBlockSizeException e) {
-                throw new RuntimeException(e);
-            } catch (BadPaddingException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidKeyException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return null;
-    }
 
-    public char[] encrypt(char[] a){
+    public char[] encryptedMasterPassword(){
+       return encrypt(password);
+    }
+    @Override
+    public String encrypt(String input) {
         try {
-            byte []bytesText = new byte[a.length];
-            for (int i = 0; i < a.length; ++i) {
-                bytesText[i] = (byte) password[i];
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] bytesText = input.getBytes(StandardCharsets.UTF_8);
+            byte[] encrypted = cipher.doFinal(bytesText);
+            return new String(Base64.getEncoder().encode(encrypted));
+        } catch (IllegalBlockSizeException | InvalidKeyException | BadPaddingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    @Override
+    public char[] encrypt(char[] encrypt) {
+        try {
+            byte[] bytesText = new byte[encrypt.length];
+            for (int i = 0; i < encrypt.length; ++i) {
+                bytesText[i] = (byte) encrypt[i];
             }
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encrypted = cipher.doFinal(bytesText);
-            return new String(Base64.getEncoder().encode(encrypted)).toCharArray();
-        } catch (IllegalBlockSizeException e) {
-            throw new RuntimeException(e);
-        } catch (BadPaddingException e) {
-            throw new RuntimeException(e);
-        } catch (InvalidKeyException e) {
+            byte[] rawbyte = Base64.getEncoder().encode(encrypted);
+            char encoded[] = new char[bytesText.length];
+            for (int i = 0; i < encrypt.length; ++i) {
+                encoded[i] = (char) rawbyte[i];
+            }
+            return encoded;
+        } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public <T> T decrypt(T encrypt) {
-        if (encrypt instanceof String) {
-            try {
-
-                String a = (String) encrypt;
-                cipher.init(cipher.DECRYPT_MODE, key);
-                byte[] encrypted = Base64.getDecoder().decode(a);
-                byte[] bytesText = cipher.doFinal(encrypted);
-
-                return (T) new String(bytesText);
-            } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
-                System.out.println("Decryption went bad");
-            }
+    @Override
+    public String decrypt(String encrypt) {
+        try {
+            String a = encrypt;
+            cipher.init(cipher.DECRYPT_MODE, key);
+            byte[] encrypted = Base64.getDecoder().decode(a);
+            byte[] bytesText = cipher.doFinal(encrypted);
+            return new String(bytesText);
+        } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+
+    }
+
+    @Override
+    public char[] decrypt(char[] encrypt) {
+        try {
+            byte[] encodedbytesText = new byte[encrypt.length];
+            for (int i = 0; i < encrypt.length; ++i) {
+                encodedbytesText[i] = (byte) encrypt[i];
+            }
+            cipher.init(cipher.DECRYPT_MODE, key);
+            byte[] encrypted = Base64.getDecoder().decode(encodedbytesText);
+            byte[] bytesText = cipher.doFinal(encrypted);
+            char decoded[] = new char[bytesText.length];
+            for (int i = 0; i < encrypt.length; ++i) {
+                decoded[i] = (char) bytesText[i];
+            }
+            return decoded;
+        } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
