@@ -53,7 +53,7 @@ public class CreateForm implements Form {
                                 ErrorLabel.setText("File does already exist");
                             } else {
                                 model.getInstanceEnc().init(password);
-                                model.getFileHandler().write( new String(model.getInstanceEnc().encrypt(password)));
+                                model.getFileHandler().write( new String(model.getInstanceEnc().encryptedMasterPassword()));
                                 Arrays.fill(password,(char)0);
                                 //TODO switch to password menu
                                 CardLayout cl = (CardLayout) parent.getLayout();

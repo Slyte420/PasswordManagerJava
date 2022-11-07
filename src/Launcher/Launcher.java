@@ -1,9 +1,6 @@
 package Launcher;
 
-import Forms.CreateForm;
-import Forms.Form;
-import Forms.LoginForm;
-import Forms.MainMenuForm;
+import Forms.*;
 import Model.PasswordManagerModel;
 
 import javax.swing.*;
@@ -43,5 +40,6 @@ public class Launcher {
         forms.add(new MainMenuForm(parentPanel,dictForm));
         forms.add(new CreateForm(parentPanel,dictForm));
         forms.add(new LoginForm(parentPanel,dictForm));
+        forms.add(new PasswordMenu(parentPanel,dictForm));
     }
 }

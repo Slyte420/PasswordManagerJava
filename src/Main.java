@@ -12,13 +12,15 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        DES instance = DES.getInstance();
+        /*DES instance = DES.getInstance();
         instance.init("a".toCharArray());
         char[] encoded = instance.encrypt("lol".toCharArray());
         char[] decoded = instance.decrypt(encoded);
         System.out.println(encoded);
         System.out.println(decoded);
-        //new Launcher.Launcher();
+        decoded = instance.decrypt(encoded);
+        System.out.println(decoded);*/
+        new Launcher.Launcher();
         /*PassGen a = new PassGen();
         a.generatePassword(15);
         System.out.println(new File("a.in").toString());*/

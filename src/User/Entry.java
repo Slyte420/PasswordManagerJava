@@ -3,10 +3,14 @@ package User;
 import RandomPasswordGenerator.PassGen;
 import RandomPasswordGenerator.PassGenException;
 
+import javax.swing.table.AbstractTableModel;
+
 public class Entry {
     protected String username;
     protected String password;
     private static final int ID = IDs.ENTRY.getID();
+
+    private static String[] columnNames = {"Username","Password"};
 
     public static int getID() {
         return ID;
@@ -34,6 +38,7 @@ public class Entry {
             throw new RuntimeException(e);
         }
     }
+
 
     public void setPassword(String password) {
         this.password = password;

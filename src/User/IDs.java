@@ -1,16 +1,18 @@
 package User;
 
 public enum IDs {
-    ENTRY("Entry",0),
-    ENTRYINTRENET("Internet",1),
-    ENTRYEMAIL("Email",2),
-    ENTRYGENERAL("General",3);
+    ENTRY("Entry",0, new String[]{"Username", "Password"}),
+    ENTRYINTRENET("Internet",1,new String[]{"Username", "Password"}),
+    ENTRYEMAIL("Email",2,new String[]{"Username", "Password"}),
+    ENTRYGENERAL("General",3,new String[]{"Username", "Password"});
 
     private final String name;
     private final int ID;
-    IDs(String name, int ID) {
+    private final String[] columns;
+    IDs(String name, int ID,String[] columns) {
         this.name = name;
         this.ID = ID;
+        this.columns = columns;
     }
 
     public int getID(){
@@ -18,5 +20,8 @@ public enum IDs {
     }
     public String getName(){
         return name;
+    }
+    public String[] getColumns() {
+        return columns;
     }
 }

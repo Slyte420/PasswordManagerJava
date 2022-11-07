@@ -10,7 +10,7 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
-public class DES<T> implements Encryption {
+public class DES implements Encryption {
 
     public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
     private KeySpec ks;
@@ -30,6 +30,7 @@ public class DES<T> implements Encryption {
         myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
         arrayBytes = new byte[24];
         int length = password.length;
+        this.password = password;
         for (int i = 0; i < length; ++i) {
             arrayBytes[i] = (byte) password[i];
         }
@@ -59,7 +60,7 @@ public class DES<T> implements Encryption {
 
     public static DES getInstance() {
         if (instance == null) {
-            instance = new DES<String>();
+            instance = new DES();
         }
         return instance;
     }
@@ -90,8 +91,8 @@ public class DES<T> implements Encryption {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encrypted = cipher.doFinal(bytesText);
             byte[] rawbyte = Base64.getEncoder().encode(encrypted);
-            char encoded[] = new char[bytesText.length];
-            for (int i = 0; i < encrypt.length; ++i) {
+            char encoded[] = new char[rawbyte.length];
+            for (int i = 0; i < rawbyte.length; ++i) {
                 encoded[i] = (char) rawbyte[i];
             }
             return encoded;
@@ -126,7 +127,7 @@ public class DES<T> implements Encryption {
             byte[] encrypted = Base64.getDecoder().decode(encodedbytesText);
             byte[] bytesText = cipher.doFinal(encrypted);
             char decoded[] = new char[bytesText.length];
-            for (int i = 0; i < encrypt.length; ++i) {
+            for (int i = 0; i < bytesText.length; ++i) {
                 decoded[i] = (char) bytesText[i];
             }
             return decoded;

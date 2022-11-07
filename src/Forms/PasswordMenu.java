@@ -1,24 +1,25 @@
 package Forms;
 
 import Model.PasswordManagerModel;
+import User.IDs;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Dictionary;
 
 public class PasswordMenu implements Form{
     private JPanel parent;
     private JPanel mainPanel;
-    private JTabbedPane tabbedPane1;
+    private JTabbedPane tabbedPane;
     private JButton addButton;
     private JButton editButton;
     private JButton deleteButton;
     private JButton insertButton;
     private JPanel bottomPanel;
     private JPanel topPanel;
-    private JButton button1;
+    private JButton Save;
     private JButton setMasterPasswordButton;
-    private JTable table1;
 
     private Dictionary panels;
     private PasswordManagerModel model;
@@ -40,7 +41,24 @@ public class PasswordMenu implements Form{
         return mainPanel;
     }
 
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        PasswordMenu menu = new PasswordMenu(null,null);
+        frame.setContentPane(menu.getPanel());
+        frame.setMinimumSize(new Dimension(800,600));
+        frame.setResizable(false);
+        frame.setVisible(true);
+    }
+
     private void createUIComponents() {
-        // TODO: place custom component creation code here Tabbed pane
+        tabbedPane = new JTabbedPane(SwingConstants.TOP);
+        for(IDs ID_value: IDs.values()){
+            JScrollPane pane = new JScrollPane();
+            DefaultTableModel model = new DefaultTableModel(new Object[]{ID_value.getColumns()},0);
+            JTable tablegroup = new JTable(new DefaultTableModel());
+            pane.add(tablegroup);
+            tabbedPane.addTab(ID_value.getName(),pane);
+
+        }
     }
 }
