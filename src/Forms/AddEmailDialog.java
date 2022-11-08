@@ -6,24 +6,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AddEntryDialog extends JDialog {
+public class AddEmailDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
     private JTextField usernameTextField;
     private JTextField passwordTextField;
+    private JTextField emailTextField;
+    private JButton buttonOK;
+    private JButton buttonCancel;
     private JLabel errorLabel;
-    private JPanel buttomPanel;
-    private JPanel textPanel;
 
     private String username;
     private char[] password;
+    private String email;
 
-    public AddEntryDialog() {
+
+    public AddEmailDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setMinimumSize(new Dimension(200,200));
+        setMinimumSize(new Dimension(200,250));
         setResizable(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -52,18 +53,19 @@ public class AddEntryDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
-
-    public AddEntryDialog(String username, char[] password) {
+    public AddEmailDialog(String username, char[] password,String email) {
         this();
         this.username = username;
         this.password = password;
+        this.email = email;
         usernameTextField.setText(username);
         passwordTextField.setText(new String(password));
+        emailTextField.setText(email);
     }
-
     private void onOK() {
         username = usernameTextField.getText();
         password = passwordTextField.getText().toCharArray();
+        email = emailTextField.getText();
         if (PassGen.validPassword(password)) {
             dispose();
         }
@@ -73,6 +75,7 @@ public class AddEntryDialog extends JDialog {
     }
 
     private void onCancel() {
+
         dispose();
     }
 
@@ -84,10 +87,14 @@ public class AddEntryDialog extends JDialog {
         return password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public static void main(String[] args) {
-        AddEntryDialog dialog = new AddEntryDialog();
+        AddEmailDialog dialog = new AddEmailDialog();
         dialog.pack();
         dialog.setVisible(true);
-        System.out.println(dialog.getPassword());
+        System.exit(0);
     }
 }

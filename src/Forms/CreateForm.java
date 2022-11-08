@@ -4,6 +4,7 @@ import InputOutputHandling.FileNameInvalid;
 import InputOutputHandling.FilePathIsNullException;
 import Launcher.FormsID;
 import Model.PasswordManagerModel;
+import RandomPasswordGenerator.PassGen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,8 +44,8 @@ public class CreateForm implements Form {
                 String name = enterTheNameForTextField.getText();
                 if (!name.isEmpty()) {
                     char[] password = pleaseEnterTheMasterPasswordField.getPassword();
-                    if (password.length == 0 || password.length > 24) {
-                        ErrorLabel.setText("Password is too short or too long!");
+                    if (PassGen.validPassword(password)) {
+                        ErrorLabel.setText("Password is invalid!");
                     } else {
                         ErrorLabel.setText("");
                         try {

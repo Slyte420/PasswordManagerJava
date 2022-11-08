@@ -6,10 +6,10 @@ import java.util.Random;
 
 public class PassGen {
 
-    private final String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
-    private final String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private final String numbers = "0123456789";
-    private String specialCharacthers = "@!./?<>;[]\\(){}";
+    private static final String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+    private static final String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String numbers = "0123456789";
+    private static String specialCharacthers = "@!./?<>;[]\\(){}";
     private String customCharacthers;
     private boolean lower;
     private boolean upper;
@@ -17,15 +17,9 @@ public class PassGen {
     private boolean special;
 
     private boolean custom;
-    public PassGen(String customCharacthers,boolean lower,boolean upper, boolean number, boolean special,boolean custom){
-        this.customCharacthers = customCharacthers;
-        this.lower = lower;
-        this.upper = upper;
-        this.number = number;
-        this.special = special;
-        this.custom = custom;
-    }
-    public PassGen(boolean lower,boolean upper, boolean number, boolean special){
+
+
+    public PassGen(boolean lower, boolean upper, boolean number, boolean special) {
         this.lower = lower;
         this.upper = upper;
         this.number = number;
@@ -33,11 +27,12 @@ public class PassGen {
         this.custom = false;
     }
 
-    public PassGen(){
+    public PassGen() {
         this.lower = true;
         this.upper = true;
         this.number = true;
         this.special = true;
+        this.custom = false;
     }
 
     public void setLower(boolean lower) {
@@ -56,17 +51,6 @@ public class PassGen {
         this.special = special;
     }
 
-    public void setCustom(boolean custom) {
-        this.custom = custom;
-    }
-
-    public void setCustomCharacthers(String customCharacthers) {
-        this.customCharacthers = customCharacthers;
-    }
-
-    public String getCustomCharacthers() {
-        return customCharacthers;
-    }
 
     public String getLowerCaseLetters() {
         return lowerCaseLetters;
@@ -84,9 +68,6 @@ public class PassGen {
         return upperCaseLetters;
     }
 
-    public boolean isCustom() {
-        return custom;
-    }
 
     public boolean isLower() {
         return lower;
@@ -106,17 +87,9 @@ public class PassGen {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof PassGen){
-            PassGen a = (PassGen)o;
+        if (o instanceof PassGen) {
+            PassGen a = (PassGen) o;
             boolean custom = false;
-            if(a.customCharacthers != null && this.customCharacthers != null){
-                custom = a.customCharacthers.equals(this.customCharacthers);
-            }
-            else{
-                if(a.customCharacthers == null && this.customCharacthers == null){
-                    custom = true;
-                }
-            }
             return (custom && a.lower == this.lower && a.upper == this.upper && a.number == this.number && a.custom == this.custom);
         }
         return false;
@@ -125,31 +98,60 @@ public class PassGen {
     public char[] generatePassword(int length) throws PassGenException {
         char[] password = new char[length];
         String combinedchar = "";
-        if(lower){
+        if (lower) {
             combinedchar = combinedchar + lowerCaseLetters;
         }
-        if(upper){
+        if (upper) {
             combinedchar = combinedchar + upperCaseLetters;
         }
-        if(number){
+        if (number) {
             combinedchar = combinedchar + numbers;
         }
-        if(special){
+        if (special) {
             combinedchar = combinedchar + specialCharacthers;
         }
-        if(custom && customCharacthers.length() != 0){
+        if (custom && customCharacthers.length() != 0) {
             combinedchar = combinedchar + customCharacthers;
         }
 
         Random rand = new SecureRandom();
         int bound = combinedchar.length();
-        if(bound <= 0){
+        if (bound <= 0) {
             throw new PassGenException("No characters to select from");
         }
-        for(int i = 0; i < length; ++i){
+        for (int i = 0; i < length; ++i) {
             password[i] = combinedchar.charAt(rand.nextInt(bound));
         }
 
         return password;
+    }
+
+    public static boolean validPassword(char[] password) {
+        if (!(password.length >= 3 && password.length <= 24)) {
+            return false;
+        }
+
+        boolean special = false;
+        boolean big = false;
+        boolean small = false;
+        boolean number = false;
+        for (int i = 0; i < password.length; ++i) {
+            if (password[i] == ' ') {
+                return false;
+            }
+            if (specialCharacthers.contains("" + password[i])) {
+                special = true;
+            }
+            if (upperCaseLetters.contains("" + password[i])) {
+                big = true;
+            }
+            if (lowerCaseLetters.contains("" + password[i])) {
+                small = true;
+            }
+            if (numbers.contains("" + password[i])) {
+                number = true;
+            }
+        }
+        return true;
     }
 }

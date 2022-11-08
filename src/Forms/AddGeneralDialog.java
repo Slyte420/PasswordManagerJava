@@ -6,24 +6,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AddEntryDialog extends JDialog {
+public class AddGeneralDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField usernameTextField;
     private JTextField passwordTextField;
+    private JTextField notesTextField;
     private JLabel errorLabel;
-    private JPanel buttomPanel;
-    private JPanel textPanel;
 
     private String username;
     private char[] password;
-
-    public AddEntryDialog() {
+    private String notes;
+    public AddGeneralDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setMinimumSize(new Dimension(200,200));
+        setMinimumSize(new Dimension(200,250));
         setResizable(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -53,17 +52,19 @@ public class AddEntryDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    public AddEntryDialog(String username, char[] password) {
+    public AddGeneralDialog(String username, char[] password,String notes) {
         this();
         this.username = username;
         this.password = password;
+        this.notes = notes;
         usernameTextField.setText(username);
         passwordTextField.setText(new String(password));
+        notesTextField.setText(notes);
     }
-
     private void onOK() {
         username = usernameTextField.getText();
         password = passwordTextField.getText().toCharArray();
+        notes = notesTextField.getText();
         if (PassGen.validPassword(password)) {
             dispose();
         }
@@ -76,18 +77,10 @@ public class AddEntryDialog extends JDialog {
         dispose();
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public char[] getPassword() {
-        return password;
-    }
-
     public static void main(String[] args) {
-        AddEntryDialog dialog = new AddEntryDialog();
+        AddGeneralDialog dialog = new AddGeneralDialog();
         dialog.pack();
         dialog.setVisible(true);
-        System.out.println(dialog.getPassword());
+        System.exit(0);
     }
 }
