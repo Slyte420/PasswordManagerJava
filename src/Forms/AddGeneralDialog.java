@@ -18,7 +18,9 @@ public class AddGeneralDialog extends JDialog {
     private String username;
     private char[] password;
     private String notes;
+    private boolean cancelled;
     public AddGeneralDialog() {
+        cancelled = false;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -65,16 +67,40 @@ public class AddGeneralDialog extends JDialog {
         username = usernameTextField.getText();
         password = passwordTextField.getText().toCharArray();
         notes = notesTextField.getText();
-        if (PassGen.validPassword(password)) {
-            dispose();
-        }
-        else{
-            errorLabel.setText("Invalid password!");
+        if (PassGen.validOther(notes)) {
+            if (PassGen.validUsername(username)) {
+                if (PassGen.validPassword(password) || password.length == 0) {
+                    dispose();
+                } else {
+                    errorLabel.setText("Invalid password!");
+                }
+            } else {
+                errorLabel.setText("Invalid username!");
+            }
+        } else {
+            errorLabel.setText("Invalid URL!");
         }
     }
 
     private void onCancel() {
+        cancelled = true;
         dispose();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public char[] getPassword() {
+        return password;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public static void main(String[] args) {

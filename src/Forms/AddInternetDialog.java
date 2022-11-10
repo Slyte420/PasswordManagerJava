@@ -19,11 +19,14 @@ public class AddInternetDialog extends JDialog {
     private String username;
     private char[] password;
     private String URL;
+    private boolean cancelled;
+
     public AddInternetDialog() {
+        cancelled = false;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setMinimumSize(new Dimension(200,250));
+        setMinimumSize(new Dimension(200, 250));
         setResizable(false);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -52,7 +55,8 @@ public class AddInternetDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
-    public AddInternetDialog(String username, char[] password,String notes) {
+
+    public AddInternetDialog(String username, char[] password, String URL) {
         this();
         this.username = username;
         this.password = password;
@@ -61,21 +65,45 @@ public class AddInternetDialog extends JDialog {
         passwordTextField.setText(new String(password));
         URLTextField.setText(URL);
     }
+
     private void onOK() {
         username = usernameTextField.getText();
         password = passwordTextField.getText().toCharArray();
         URL = URLTextField.getText();
-        if (PassGen.validPassword(password)) {
-            dispose();
-        }
-        else{
-            errorLabel.setText("Invalid password!");
+        if (PassGen.validOther(URL)) {
+            if (PassGen.validUsername(username)) {
+                if (PassGen.validPassword(password) || password.length == 0) {
+                    dispose();
+                } else {
+                    errorLabel.setText("Invalid password!");
+                }
+            } else {
+                errorLabel.setText("Invalid username!");
+            }
+        } else {
+            errorLabel.setText("Invalid URL!");
         }
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        cancelled = true;
         dispose();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public char[] getPassword() {
+        return password;
+    }
+
+    public String getURL() {
+        return URL;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public static void main(String[] args) {

@@ -126,6 +126,15 @@ public class PassGen {
         return password;
     }
 
+    public static boolean validUsername(String username){
+        if(!(username.length() > 0 && username.length() <= 32)){
+            return false;
+        }
+        if(username.contains(":")){
+            return false;
+        }
+        return true;
+    }
     public static boolean validPassword(char[] password) {
         if (!(password.length >= 3 && password.length <= 24)) {
             return false;
@@ -152,6 +161,9 @@ public class PassGen {
                 number = true;
             }
         }
-        return true;
+        return (special && big && small && number);
+    }
+    public static boolean validOther(String other){
+        return !other.contains(":");
     }
 }

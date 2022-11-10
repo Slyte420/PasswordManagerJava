@@ -18,8 +18,9 @@ public class AddEntryDialog extends JDialog {
 
     private String username;
     private char[] password;
-
+    private boolean cancelled;
     public AddEntryDialog() {
+        cancelled = false;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -64,15 +65,20 @@ public class AddEntryDialog extends JDialog {
     private void onOK() {
         username = usernameTextField.getText();
         password = passwordTextField.getText().toCharArray();
-        if (PassGen.validPassword(password)) {
+        if(PassGen.validUsername(username)){
+        if (PassGen.validPassword(password) || password.length == 0) {
             dispose();
         }
         else{
             errorLabel.setText("Invalid password!");
+        }}
+        else{
+            errorLabel.setText("Invalid username!");
         }
     }
 
     private void onCancel() {
+        cancelled = true;
         dispose();
     }
 
@@ -82,6 +88,10 @@ public class AddEntryDialog extends JDialog {
 
     public char[] getPassword() {
         return password;
+    }
+
+    public boolean isCancelled(){
+        return cancelled;
     }
 
     public static void main(String[] args) {

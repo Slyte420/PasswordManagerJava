@@ -1,5 +1,6 @@
 package User;
 
+import Forms.PasswordMenu;
 import RandomPasswordGenerator.PassGen;
 import RandomPasswordGenerator.PassGenException;
 
@@ -10,7 +11,7 @@ public class Entry {
     protected String password;
     private static final int ID = IDs.ENTRY.getID();
 
-    private static String[] columnNames = {"Username","Password"};
+    private static String[] columnNames = {"Username", "Password"};
 
     public static int getID() {
         return ID;
@@ -19,7 +20,6 @@ public class Entry {
     public Entry(String username, String password) {
         this.username = username;
         this.password = password;
-
     }
 
     public Entry(String username) {
@@ -56,6 +56,13 @@ public class Entry {
         return username;
     }
 
+    public void generatePassword(){
+        try {
+            this.password = new String(new PassGen().generatePassword(24));
+        } catch (PassGenException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Entry && obj != null) {

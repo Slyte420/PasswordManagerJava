@@ -3,32 +3,36 @@ package Model;
 import Encryption.DES;
 import Encryption.Encryption;
 import InputOutputHandling.FileHandler;
-import User.Entry;
-import User.EntryEmail;
-import User.EntryInternet;
+import User.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PasswordManagerModel {
-    private ArrayList<Entry> entries;
+    private ArrayList<ArrayList<Entry>> entries;
     private FileHandler fileHandler;
     private Encryption instanceEnc;
 
+
     private static PasswordManagerModel instance;
 
-    private PasswordManagerModel(){
-        entries = new ArrayList<Entry>();
+    private PasswordManagerModel() {
+        entries = new ArrayList<ArrayList<Entry>>();
         fileHandler = new FileHandler();
         instanceEnc = DES.getInstance();
+        for (int i = 0; i < IDs.values().length; ++i) {
+            entries.add(new ArrayList<Entry>());
+        }
     }
-    public static PasswordManagerModel getInstance(){
-        if(instance == null){
+
+    public static PasswordManagerModel getInstance() {
+        if (instance == null) {
             instance = new PasswordManagerModel();
         }
         return instance;
     }
 
-    public ArrayList<Entry> getEntries() {
+    public ArrayList<ArrayList<Entry>> getEntries() {
         return entries;
     }
 
@@ -40,7 +44,7 @@ public class PasswordManagerModel {
         return fileHandler;
     }
 
-    public void setEntries(ArrayList<Entry> entries) {
+    public void setEntries(ArrayList<ArrayList<Entry>> entries) {
         this.entries = entries;
     }
 
@@ -52,23 +56,72 @@ public class PasswordManagerModel {
         this.instanceEnc = instanceEnc;
     }
 
-    public void addEntryGeneral(String username, char[] password){
-        entries.add(new Entry(username,new String(password)));
+    public void addEntry(String username, char[] password) {
+        entries.get(IDs.ENTRY.getID()).add(new Entry(username, new String(password)));
     }
-    public void addEntryGeneral(String username, String password){
-        entries.add(new Entry(username,password));
+
+    public void addEntry(String username, String password) {
+        entries.get(IDs.ENTRY.getID()).add(new Entry(username, password));
     }
-    public void addEntryEmail(String username, char[] password,String email){
-        entries.add(new EntryEmail(username,new String(password),email));
+
+    public void addEntry(String username){
+        entries.get(IDs.ENTRY.getID()).add(new Entry(username));
     }
-    public void addEntryEmail(String username, String password,String email){
-        entries.add(new EntryEmail(username,password,email));
+    public void addEntryGeneral(String username, char[] password, String notes) {
+        entries.get(IDs.ENTRYGENERAL.getID()).add(new EntryGeneral(username, new String(password), notes));
     }
-    public void addEntryInternet(String username, char[] password,String URL){
-        entries.add(new EntryInternet(username,new String(password),URL));
+
+    public void addEntryGeneral(String username, String password, String notes) {
+        entries.get(IDs.ENTRYGENERAL.getID()).add(new EntryGeneral(username, password, notes));
     }
-    public void addEntryInternet(String username, String password,String URL){
-        entries.add(new EntryInternet(username,password,URL));
+    public void addEntryGeneral(String username, String notes) {
+        entries.get(IDs.ENTRYGENERAL.getID()).add(new EntryGeneral(username, notes));
     }
-    
+    public void addEntryEmail(String username, char[] password, String email) {
+        entries.get(IDs.ENTRYEMAIL.getID()).add(new EntryEmail(username, new String(password), email));
+    }
+
+    public void addEntryEmail(String username, String password, String email) {
+        entries.get(IDs.ENTRYEMAIL.getID()).add(new EntryEmail(username, password, email));
+    }
+    public void addEntryEmail(String username, String email) {
+        entries.get(IDs.ENTRYEMAIL.getID()).add(new EntryEmail(username, email));
+    }
+    public void addEntryInternet(String username, char[] password, String URL) {
+        entries.get(IDs.ENTRYINTERNET.getID()).add(new EntryInternet(username, new String(password), URL));
+    }
+
+    public void addEntryInternet(String username, String password, String URL) {
+        entries.get(IDs.ENTRYINTERNET.getID()).add(new EntryInternet(username, password, URL));
+    }
+    public void addEntryInternet(String username, String URL) {
+        entries.get(IDs.ENTRYINTERNET.getID()).add(new EntryInternet(username, URL));
+    }
+
+    public boolean deleteEntry(int index, int group) {
+        if (entries.size() > group) {
+            if (entries.get(group).size() > index) {
+                entries.get(group).remove(index);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public Entry getEntry(int index, int group) {
+        if (entries.size() > group) {
+            if (entries.get(group).size() > index) {
+                return entries.get(group).get(index);
+            }
+        }
+        return null;
+    }
+    public int getSize(int group){
+        if(entries.size() > group){
+            return entries.get(group).size();
+        }
+        return -1;
+    }
+
 }

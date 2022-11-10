@@ -19,8 +19,9 @@ public class AddEmailDialog extends JDialog {
     private char[] password;
     private String email;
 
-
+    private boolean cancelled;
     public AddEmailDialog() {
+        cancelled = false;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -66,16 +67,23 @@ public class AddEmailDialog extends JDialog {
         username = usernameTextField.getText();
         password = passwordTextField.getText().toCharArray();
         email = emailTextField.getText();
-        if (PassGen.validPassword(password)) {
-            dispose();
-        }
-        else{
-            errorLabel.setText("Invalid password!");
+        if (PassGen.validOther(email)) {
+            if (PassGen.validUsername(username)) {
+                if (PassGen.validPassword(password) || password.length == 0) {
+                    dispose();
+                } else {
+                    errorLabel.setText("Invalid password!");
+                }
+            } else {
+                errorLabel.setText("Invalid username!");
+            }
+        } else {
+            errorLabel.setText("Invalid Email!");
         }
     }
 
     private void onCancel() {
-
+        cancelled = true;
         dispose();
     }
 
@@ -89,6 +97,10 @@ public class AddEmailDialog extends JDialog {
 
     public String getEmail() {
         return email;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public static void main(String[] args) {
