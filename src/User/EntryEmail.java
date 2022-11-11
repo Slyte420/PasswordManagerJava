@@ -3,18 +3,22 @@ package User;
 public class EntryEmail extends Entry {
     private static final int ID = IDs.ENTRYEMAIL.getID();
     private String email;
-    public EntryEmail(String username, String password,String email){
+
+    public EntryEmail(String username, String password, String email) {
         super(username, password);
         this.email = email;
     }
-    public EntryEmail(String username, String email){
+
+    public EntryEmail(String username, String email) {
         super(username);
         this.email = email;
     }
-    public EntryEmail(String username){
+
+    public EntryEmail(String username) {
         super(username);
     }
-    public EntryEmail(){
+
+    public EntryEmail() {
         super();
     }
 
@@ -37,6 +41,6 @@ public class EntryEmail extends Entry {
 
     @Override
     public String toString() {
-        return ID + " " + username + " " + password + " " + email;
+        return  ID + " " + username + " " + password + " " + email;
     }
 }

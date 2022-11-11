@@ -1,5 +1,8 @@
 package Forms;
 
+import InputOutputHandling.FileHandler;
+import InputOutputHandling.FileNameInvalid;
+import InputOutputHandling.FilePathIsNullException;
 import Model.PasswordManagerModel;
 import User.*;
 
@@ -93,6 +96,12 @@ public class PasswordMenu implements Form {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setMasterPassword();
+            }
+        });
+        Save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
             }
         });
     }
@@ -313,24 +322,60 @@ public class PasswordMenu implements Form {
             }
         }
     }
-    private void deleteEntry(){
+
+    private void deleteEntry() {
         int selectedTab = tabbedPane.getSelectedIndex();
-        if(selectedTab != -1){
+        if (selectedTab != -1) {
             int selectedRow = tables.get(selectedTab).getSelectedRow();
-            if(selectedRow != -1){
-                model.deleteEntry(selectedRow,selectedTab);
+            if (selectedRow != -1) {
+                model.deleteEntry(selectedRow, selectedTab);
                 DefaultTableModel table = (DefaultTableModel) tables.get(selectedTab).getModel();
                 table.removeRow(selectedRow);
             }
         }
     }
-    private void setMasterPassword(){
+
+    private void setMasterPassword() {
         SetMasterPasswordDialog diag = new SetMasterPasswordDialog();
         diag.pack();
         diag.setVisible(true);
-        if(!diag.isCancelled()){
+        if (!diag.isCancelled()) {
+            try {
+                model.getFileHandler().setFilePath("a.db");
+            } catch (FileNameInvalid e) {
+                throw new RuntimeException(e);
+            }
+            model.getInstanceEnc().init("abvc".toCharArray());
             char[] password = diag.getPassword();
             model.getInstanceEnc().init(password);
+            try {
+                model.getFileHandler().deleteFile();
+                model.getFileHandler().write(String.valueOf(model.getInstanceEnc().encryptedMasterPassword()));
+            } catch (FilePathIsNullException e) {
+                throw new RuntimeException(e);
+            }
+            saveFile();
+        }
+    }
+
+    private void saveFile() {
+        try {
+            model.getFileHandler().setFilePath("a.db");
+            //System.out.println(model.getFileHandler().getNumberLines());
+            FileHandler fileHandler = model.getFileHandler();
+            for(int groupIndex = 0; groupIndex < IDs.values().length; ++groupIndex){
+                for(int entryIndex = 0; entryIndex < model.getSize(groupIndex); ++entryIndex){
+                    Entry entry = model.getEntry(entryIndex,groupIndex);
+                    String writeLine = model.getInstanceEnc().encrypt(entry.toString());
+                    if(!fileHandler.containsLine(writeLine)){
+                        fileHandler.write(writeLine);
+                    }
+                }
+            }
+        } catch (FileNameInvalid e) {
+            throw new RuntimeException(e);
+        } catch (FilePathIsNullException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -85,7 +85,27 @@ public class FileHandler {
             throw new RuntimeException("Can't open the file");
         }
     }
+    public boolean containsLine(String line) {
+        int numberLines = getNumberLines();
+        if(numberLines == -1){
+            return  false;
+        }
+        else{
+            for(int lineIndex = 1; lineIndex <= numberLines; ++ lineIndex){
+                String tempLine = null;
+                try {
+                    tempLine = read(lineIndex);
 
+                } catch (FilePathIsNullException e) {
+                    throw new RuntimeException(e);
+                }
+                if(tempLine.equals(line)){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
     public String read(int linenumber) throws FilePathIsNullException {
         if(filePath == null){
             throw new FilePathIsNullException("No file selected");
@@ -98,6 +118,32 @@ public class FileHandler {
             return line;
         } catch (java.io.IOException e) {
             throw new RuntimeException("Can't open the file");
+        }
+    }
+
+
+    public int getNumberLines(){
+        if(filePath == null) {
+            return -1;
+        }
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))) {
+            int line = 0;
+            while (in.readLine() != null) {
+                line++;
+            }
+            return line;
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Can't open the file");
+        }
+    }
+
+    public boolean deleteFile() throws FilePathIsNullException {
+        if(filePath == null){
+            throw new FilePathIsNullException("File doesn't exist");
+        }
+        else{
+            File file = filePath.toFile();
+             return file.delete();
         }
     }
 

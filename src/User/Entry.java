@@ -17,6 +17,10 @@ public class Entry {
         return ID;
     }
 
+    public Entry(String[] input) {
+
+    }
+
     public Entry(String username, String password) {
         this.username = username;
         this.password = password;
@@ -56,13 +60,14 @@ public class Entry {
         return username;
     }
 
-    public void generatePassword(){
+    public void generatePassword() {
         try {
             this.password = new String(new PassGen().generatePassword(24));
         } catch (PassGenException e) {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Entry && obj != null) {
