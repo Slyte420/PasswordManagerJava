@@ -89,6 +89,12 @@ public class PasswordMenu implements Form {
                 deleteEntry();
             }
         });
+        setMasterPasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setMasterPassword();
+            }
+        });
     }
 
 
@@ -308,6 +314,23 @@ public class PasswordMenu implements Form {
         }
     }
     private void deleteEntry(){
-
+        int selectedTab = tabbedPane.getSelectedIndex();
+        if(selectedTab != -1){
+            int selectedRow = tables.get(selectedTab).getSelectedRow();
+            if(selectedRow != -1){
+                model.deleteEntry(selectedRow,selectedTab);
+                DefaultTableModel table = (DefaultTableModel) tables.get(selectedTab).getModel();
+                table.removeRow(selectedRow);
+            }
+        }
+    }
+    private void setMasterPassword(){
+        SetMasterPasswordDialog diag = new SetMasterPasswordDialog();
+        diag.pack();
+        diag.setVisible(true);
+        if(!diag.isCancelled()){
+            char[] password = diag.getPassword();
+            model.getInstanceEnc().init(password);
+        }
     }
 }
