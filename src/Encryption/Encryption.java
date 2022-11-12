@@ -2,6 +2,7 @@ package Encryption;
 
 public interface Encryption {
     public void init(char[] password);
+    public void reset();
     String encrypt(String input);
     char[] encryptedMasterPassword();
     char[] encrypt(char[] encrypt);

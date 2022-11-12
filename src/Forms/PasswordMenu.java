@@ -3,6 +3,7 @@ package Forms;
 import InputOutputHandling.FileHandler;
 import InputOutputHandling.FileNameInvalid;
 import InputOutputHandling.FilePathIsNullException;
+import Launcher.FormsID;
 import Model.PasswordManagerModel;
 import User.*;
 
@@ -104,6 +105,18 @@ public class PasswordMenu implements Form {
                 saveFile();
             }
         });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+                model.getInstanceEnc().reset();
+                model.clearEntries();
+                resetTables();
+                tabbedPane.setSelectedIndex(IDs.ENTRY.getID());
+                CardLayout cl = (CardLayout) parent.getLayout();
+                cl.show(parent, (String) panels.get(FormsID.MAINMENU.getID()));
+            }
+        });
     }
 
 
@@ -136,6 +149,31 @@ public class PasswordMenu implements Form {
                     return false;
                 }
             };
+            JTable table = new JTable(model);
+            table.setFillsViewportHeight(true);
+            table.getTableHeader().setResizingAllowed(false);
+            table.setRowSelectionAllowed(true);
+            tables.add(ID_value.getID(), table);
+            tabbedPane.addTab(ID_value.getName(), new JScrollPane(table));
+
+        }
+    }
+
+
+    private void resetTables(){
+        for(JTable table : tables){
+            DefaultTableModel model =(DefaultTableModel) table.getModel();
+            int rowIndex;
+            while((rowIndex = model.getRowCount()-1) >= 0){
+                model.removeRow(rowIndex);
+            }
+        }
+    }
+
+    public void initTable() {
+        resetTables();
+        for (IDs ID_value : IDs.values()) {
+            DefaultTableModel model = (DefaultTableModel) tables.get(ID_value.getID()).getModel();
             switch (ID_value) {
                 case ENTRY: {
                     addEntrytoModel(model);
@@ -154,17 +192,9 @@ public class PasswordMenu implements Form {
                     break;
                 }
             }
-
-            JTable table = new JTable(model);
-            table.setFillsViewportHeight(true);
-            table.getTableHeader().setResizingAllowed(false);
-            table.setRowSelectionAllowed(true);
-            tables.add(ID_value.getID(), table);
-            tabbedPane.addTab(ID_value.getName(), new JScrollPane(table));
-
         }
-    }
 
+    }
 
     private void addEntrytoModel(DefaultTableModel model) {
         String[] data = new String[2];
@@ -203,7 +233,7 @@ public class PasswordMenu implements Form {
 
     private void addEmailtoModel(DefaultTableModel model) {
         String[] data = new String[3];
-        int groupIndex = IDs.ENTRYINTERNET.getID();
+        int groupIndex = IDs.ENTRYEMAIL.getID();
         for (int indexEntry = 0; indexEntry < this.model.getSize(groupIndex); ++indexEntry) {
             EntryEmail entry = (EntryEmail) this.model.getEntry(indexEntry, groupIndex);
             data[0] = entry.getUsername();

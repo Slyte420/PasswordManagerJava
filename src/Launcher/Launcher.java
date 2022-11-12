@@ -2,6 +2,7 @@ package Launcher;
 
 import Forms.*;
 import Model.PasswordManagerModel;
+import User.IDs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,25 +22,28 @@ public class Launcher {
         parentPanel = new JPanel(new CardLayout());
         initform();
         initDictCardPanel();
+        PasswordManagerModel.getInstance().setForms(forms);
         mainFrame.setTitle("Password Manager");
         mainFrame.setMinimumSize(new Dimension(800,600));
         mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         mainFrame.setContentPane(parentPanel);
         mainFrame.setVisible(true);
+
     }
 
     private void initDictCardPanel(){
-        for(int i = 0; i < forms.size(); ++i){
-            Form form = forms.get(i);
+        for(FormsID IDValue : FormsID.values()){
+            int ID = IDValue.getID();
+            Form form = forms.get(ID);
             String name = form.getCardName();
             parentPanel.add(form.getPanel(),name);
-            dictForm.put(i,name);
+            dictForm.put(ID,name);
         }
     }
     private void initform(){
-        forms.add(new MainMenuForm(parentPanel,dictForm));
-        forms.add(new CreateForm(parentPanel,dictForm));
-        forms.add(new LoginForm(parentPanel,dictForm));
-        forms.add(new PasswordMenu(parentPanel,dictForm));
+        forms.add(FormsID.MAINMENU.getID(),new MainMenuForm(parentPanel,dictForm));
+        forms.add(FormsID.CREATE.getID(),new CreateForm(parentPanel,dictForm));
+        forms.add(FormsID.LOGIN.getID(),new LoginForm(parentPanel,dictForm));
+        forms.add(FormsID.PASSWORDMENU.getID(),new PasswordMenu(parentPanel,dictForm));
     }
 }

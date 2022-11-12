@@ -38,6 +38,9 @@ public class DES implements Encryption {
         initSpecs();
 
     }
+    public void reset(){
+        Arrays.fill(password,(char)0);
+    }
 
     private void initSpecs() {
         try {

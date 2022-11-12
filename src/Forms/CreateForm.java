@@ -21,7 +21,7 @@ public class CreateForm implements Form {
     private JButton createButton;
     private JLabel fileNameLabel;
     private JButton backButton;
-    private JLabel ErrorLabel;
+    private JLabel errorLabel;
     private Dictionary panels;
     private PasswordManagerModel model;
     private final Dimension size = new Dimension(650, 550);
@@ -45,34 +45,38 @@ public class CreateForm implements Form {
                 if (!name.isEmpty()) {
                     char[] password = pleaseEnterTheMasterPasswordField.getPassword();
                     if (PassGen.validPassword(password)) {
-                        ErrorLabel.setText("Password is invalid!");
+                        errorLabel.setText("Password is invalid!");
                     } else {
-                        ErrorLabel.setText("");
+                        errorLabel.setText("");
                         try {
                             model.getFileHandler().setFilePath(name);
                             if (model.getFileHandler().doesFileExist()) {
-                                ErrorLabel.setText("File does already exist");
+                                errorLabel.setText("File does already exist");
                             } else {
                                 model.getInstanceEnc().init(password);
                                 model.getFileHandler().write( new String(model.getInstanceEnc().encryptedMasterPassword()));
                                 Arrays.fill(password,(char)0);
-                                //TODO switch to password menu
                                 CardLayout cl = (CardLayout) parent.getLayout();
                                 cl.show(parent,(String) panels.get(FormsID.PASSWORDMENU.getID()));
                             }
                         } catch (FileNameInvalid exc) {
-                            ErrorLabel.setText(exc.getMessage());
+                            errorLabel.setText(exc.getMessage());
                         } catch (FilePathIsNullException ex) {
                             throw new RuntimeException(ex);
                         }
                     }
                 } else {
-                    ErrorLabel.setText("No file name!");
+                    errorLabel.setText("No file name!");
                 }
             }
         });
     }
 
+    private void reset(){
+        pleaseEnterTheMasterPasswordField.setText("");
+        errorLabel.setText("");
+        enterTheNameForTextField.setText("");
+    }
     @Override
     public JPanel getPanel() {
         return mainPanel;

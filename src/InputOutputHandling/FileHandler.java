@@ -15,7 +15,7 @@ public class FileHandler {
     private String fileFormat = ".db";
     private Path filePath;
 
-    private int numberLines;
+
 
     public FileHandler(String filePath, String folderPath) {
         this.folderPath = folderPath;
@@ -24,7 +24,7 @@ public class FileHandler {
         if (!file.exists()) {
             file.mkdir();
         }
-        numberLines = getNumberLines();
+
     }
 
     public FileHandler(String filePath) {
@@ -33,7 +33,7 @@ public class FileHandler {
         if (!file.exists()) {
             file.mkdir();
         }
-        numberLines = getNumberLines();
+
     }
 
     public FileHandler() {
@@ -41,14 +41,13 @@ public class FileHandler {
         if (!file.exists()) {
             file.mkdir();
         }
-        numberLines = getNumberLines();
+
     }
 
     public void setFilePath(String filePath) throws FileNameInvalid {
         File file = new File(folderPath + filePath + fileFormat);
         try {
             this.filePath = file.toPath();
-            numberLines = getNumberLines();
         } catch (InvalidPathException e) {
             throw new FileNameInvalid("File name invalid");
         }
@@ -93,17 +92,13 @@ public class FileHandler {
                 line = line + "\n";
             }
             out.write(line.getBytes(StandardCharsets.UTF_8));
-            if (numberLines == -1) {
-                numberLines = 1;
-            } else {
-                numberLines++;
-            }
         } catch (java.io.IOException e) {
             throw new RuntimeException("Can't open the file");
         }
     }
 
     public boolean containsLine(String line) {
+        int numberLines = getNumberLines();
         if (numberLines != -1) {
             for (int lineIndex = 1; lineIndex <= numberLines; ++lineIndex) {
                 String tempLine = null;
@@ -137,7 +132,7 @@ public class FileHandler {
     }
 
 
-    private int getNumberLines() {
+    public int getNumberLines() {
         if (filePath == null) {
             return -1;
         }

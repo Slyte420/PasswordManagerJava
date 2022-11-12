@@ -2,6 +2,7 @@ package Model;
 
 import Encryption.DES;
 import Encryption.Encryption;
+import Forms.Form;
 import InputOutputHandling.FileHandler;
 import User.*;
 
@@ -12,7 +13,7 @@ public class PasswordManagerModel {
     private ArrayList<ArrayList<Entry>> entries;
     private FileHandler fileHandler;
     private Encryption instanceEnc;
-
+    private ArrayList<Form> forms;
 
     private static PasswordManagerModel instance;
 
@@ -54,6 +55,23 @@ public class PasswordManagerModel {
 
     public void setInstanceEnc(Encryption instanceEnc) {
         this.instanceEnc = instanceEnc;
+    }
+
+    public void setForms(ArrayList<Form> forms) {
+        this.forms = forms;
+    }
+
+    public ArrayList<Form> getForms() {
+        return forms;
+    }
+
+    public void clearEntries(){
+        for(ArrayList EntryGroup : entries){
+            int index;
+            while((index = EntryGroup.size()-1) >= 0){
+                EntryGroup.remove(index);
+            }
+        }
     }
 
     public void addEntry(String username, char[] password) {

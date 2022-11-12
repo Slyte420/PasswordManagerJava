@@ -8,8 +8,20 @@ public enum FormsID {
 
     private final int ID;
 
-    FormsID(int ID){
-        this.ID = ID;
+    private static int IDCounter = 0;
+
+    FormsID(int ID) {
+        this.ID = getIDCounter();
+        incrementIDCounter();
+    }
+
+
+    public static int getIDCounter() {
+        return IDCounter;
+    }
+
+    private static void incrementIDCounter() {
+        IDCounter++;
     }
 
     public int getID() {

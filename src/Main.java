@@ -15,7 +15,7 @@ public class Main {
         System.out.println(decoded);
         decoded = instance.decrypt(encoded);
         System.out.println(decoded);*/
-        //new Launcher.Launcher();
+        new Launcher.Launcher();
         /*PassGen a = new PassGen();
         a.generatePassword(15);
         System.out.println(new File("a.in").toString());*/
