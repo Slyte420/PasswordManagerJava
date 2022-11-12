@@ -1,7 +1,6 @@
 package InputOutputHandling;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -13,7 +12,10 @@ import static java.nio.file.StandardOpenOption.CREATE;
 public class FileHandler {
 
     private String folderPath = "Data/";
+    private String fileFormat = ".db";
     private Path filePath;
+
+    private int numberLines;
 
     public FileHandler(String filePath, String folderPath) {
         this.folderPath = folderPath;
@@ -22,6 +24,7 @@ public class FileHandler {
         if (!file.exists()) {
             file.mkdir();
         }
+        numberLines = getNumberLines();
     }
 
     public FileHandler(String filePath) {
@@ -30,6 +33,7 @@ public class FileHandler {
         if (!file.exists()) {
             file.mkdir();
         }
+        numberLines = getNumberLines();
     }
 
     public FileHandler() {
@@ -37,23 +41,23 @@ public class FileHandler {
         if (!file.exists()) {
             file.mkdir();
         }
+        numberLines = getNumberLines();
     }
 
     public void setFilePath(String filePath) throws FileNameInvalid {
-        File file = new File(folderPath + filePath);
-            try{
+        File file = new File(folderPath + filePath + fileFormat);
+        try {
             this.filePath = file.toPath();
-            }
-            catch (InvalidPathException e){
-                throw new FileNameInvalid("File name invalid");
-            }
+            numberLines = getNumberLines();
+        } catch (InvalidPathException e) {
+            throw new FileNameInvalid("File name invalid");
+        }
     }
 
-    public boolean doesFileExist()throws FilePathIsNullException{
-        if(filePath == null){
+    public boolean doesFileExist() throws FilePathIsNullException {
+        if (filePath == null) {
             throw new FilePathIsNullException("File path is null");
-        }
-        else{
+        } else {
             File file = filePath.toFile();
             return file.exists();
         }
@@ -71,8 +75,16 @@ public class FileHandler {
         this.folderPath = folderPath;
     }
 
+    public String getFileFormat() {
+        return fileFormat;
+    }
+
+    public void setFileFormat(String fileFormat) {
+        this.fileFormat = fileFormat;
+    }
+
     public void write(String line) throws FilePathIsNullException {
-        if(filePath == null){
+        if (filePath == null) {
             throw new FilePathIsNullException("No file selected");
         }
         try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(filePath, CREATE, APPEND));
@@ -81,17 +93,19 @@ public class FileHandler {
                 line = line + "\n";
             }
             out.write(line.getBytes(StandardCharsets.UTF_8));
+            if (numberLines == -1) {
+                numberLines = 1;
+            } else {
+                numberLines++;
+            }
         } catch (java.io.IOException e) {
             throw new RuntimeException("Can't open the file");
         }
     }
+
     public boolean containsLine(String line) {
-        int numberLines = getNumberLines();
-        if(numberLines == -1){
-            return  false;
-        }
-        else{
-            for(int lineIndex = 1; lineIndex <= numberLines; ++ lineIndex){
+        if (numberLines != -1) {
+            for (int lineIndex = 1; lineIndex <= numberLines; ++lineIndex) {
                 String tempLine = null;
                 try {
                     tempLine = read(lineIndex);
@@ -99,15 +113,16 @@ public class FileHandler {
                 } catch (FilePathIsNullException e) {
                     throw new RuntimeException(e);
                 }
-                if(tempLine.equals(line)){
+                if (tempLine.equals(line)) {
                     return true;
                 }
             }
-            return false;
         }
+        return false;
     }
+
     public String read(int linenumber) throws FilePathIsNullException {
-        if(filePath == null){
+        if (filePath == null) {
             throw new FilePathIsNullException("No file selected");
         }
         try (BufferedReader in = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))) {
@@ -122,8 +137,8 @@ public class FileHandler {
     }
 
 
-    public int getNumberLines(){
-        if(filePath == null) {
+    private int getNumberLines() {
+        if (filePath == null) {
             return -1;
         }
         try (BufferedReader in = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))) {
@@ -138,12 +153,11 @@ public class FileHandler {
     }
 
     public boolean deleteFile() throws FilePathIsNullException {
-        if(filePath == null){
+        if (filePath == null) {
             throw new FilePathIsNullException("File doesn't exist");
-        }
-        else{
+        } else {
             File file = filePath.toFile();
-             return file.delete();
+            return file.delete();
         }
     }
 
@@ -154,7 +168,7 @@ public class FileHandler {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof FileHandler){
+        if (obj instanceof FileHandler) {
             return filePath.equals(((FileHandler) obj).filePath);
         }
         return false;

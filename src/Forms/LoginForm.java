@@ -18,6 +18,7 @@ public class LoginForm implements Form {
     private JLabel errorLabel;
     private JButton loadButton;
     private JButton backButton;
+    private JLabel fileNameLabel;
     private Dictionary panels;
     private PasswordManagerModel model;
     private final String name = "LoginForm";

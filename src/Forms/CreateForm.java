@@ -49,7 +49,7 @@ public class CreateForm implements Form {
                     } else {
                         ErrorLabel.setText("");
                         try {
-                            model.getFileHandler().setFilePath(name + ".db");
+                            model.getFileHandler().setFilePath(name);
                             if (model.getFileHandler().doesFileExist()) {
                                 ErrorLabel.setText("File does already exist");
                             } else {

@@ -1,10 +1,12 @@
 
 import Forms.AddEntryDialog;
+import Forms.FileChoosingDialog;
 import User.IDs;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(IDs.values().length);
+
+        //System.out.println(IDs.values().length);
         /*DES instance = DES.getInstance();
         instance.init("a".toCharArray());
         char[] encoded = instance.encrypt("lol".toCharArray());
