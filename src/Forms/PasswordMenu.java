@@ -340,12 +340,6 @@ public class PasswordMenu implements Form {
         diag.pack();
         diag.setVisible(true);
         if (!diag.isCancelled()) {
-            try {
-                model.getFileHandler().setFilePath("a.db");
-            } catch (FileNameInvalid e) {
-                throw new RuntimeException(e);
-            }
-            model.getInstanceEnc().init("abvc".toCharArray());
             char[] password = diag.getPassword();
             model.getInstanceEnc().init(password);
             try {
@@ -360,20 +354,16 @@ public class PasswordMenu implements Form {
 
     private void saveFile() {
         try {
-            model.getFileHandler().setFilePath("a.db");
-            //System.out.println(model.getFileHandler().getNumberLines());
             FileHandler fileHandler = model.getFileHandler();
-            for(int groupIndex = 0; groupIndex < IDs.values().length; ++groupIndex){
-                for(int entryIndex = 0; entryIndex < model.getSize(groupIndex); ++entryIndex){
-                    Entry entry = model.getEntry(entryIndex,groupIndex);
+            for (int groupIndex = 0; groupIndex < IDs.values().length; ++groupIndex) {
+                for (int entryIndex = 0; entryIndex < model.getSize(groupIndex); ++entryIndex) {
+                    Entry entry = model.getEntry(entryIndex, groupIndex);
                     String writeLine = model.getInstanceEnc().encrypt(entry.toString());
-                    if(!fileHandler.containsLine(writeLine)){
+                    if (!fileHandler.containsLine(writeLine)) {
                         fileHandler.write(writeLine);
                     }
                 }
             }
-        } catch (FileNameInvalid e) {
-            throw new RuntimeException(e);
         } catch (FilePathIsNullException e) {
             throw new RuntimeException(e);
         }
