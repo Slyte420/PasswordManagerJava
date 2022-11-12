@@ -136,6 +136,25 @@ public class PasswordMenu implements Form {
                     return false;
                 }
             };
+            switch (ID_value) {
+                case ENTRY: {
+                    addEntrytoModel(model);
+                    break;
+                }
+                case ENTRYINTERNET: {
+                    addInternettoModel(model);
+                    break;
+                }
+                case ENTRYEMAIL: {
+                    addEmailtoModel(model);
+                    break;
+                }
+                case ENTRYGENERAL: {
+                    addGeneraltoModel(model);
+                    break;
+                }
+            }
+
             JTable table = new JTable(model);
             table.setFillsViewportHeight(true);
             table.getTableHeader().setResizingAllowed(false);
@@ -143,6 +162,54 @@ public class PasswordMenu implements Form {
             tables.add(ID_value.getID(), table);
             tabbedPane.addTab(ID_value.getName(), new JScrollPane(table));
 
+        }
+    }
+
+
+    private void addEntrytoModel(DefaultTableModel model) {
+        String[] data = new String[2];
+        int groupIndex = IDs.ENTRY.getID();
+        for (int indexEntry = 0; indexEntry < this.model.getSize(groupIndex); ++indexEntry) {
+            Entry entry = this.model.getEntry(indexEntry, groupIndex);
+            data[0] = entry.getUsername();
+            data[1] = entry.getPassword();
+            model.addRow(data);
+        }
+    }
+
+    private void addInternettoModel(DefaultTableModel model) {
+        String[] data = new String[3];
+        int groupIndex = IDs.ENTRYINTERNET.getID();
+        for (int indexEntry = 0; indexEntry < this.model.getSize(groupIndex); ++indexEntry) {
+            EntryInternet entry = (EntryInternet) this.model.getEntry(indexEntry, groupIndex);
+            data[0] = entry.getUsername();
+            data[1] = entry.getPassword();
+            data[2] = entry.getURL();
+            model.addRow(data);
+        }
+    }
+
+    private void addGeneraltoModel(DefaultTableModel model) {
+        String[] data = new String[3];
+        int groupIndex = IDs.ENTRYGENERAL.getID();
+        for (int indexEntry = 0; indexEntry < this.model.getSize(groupIndex); ++indexEntry) {
+            EntryGeneral entry = (EntryGeneral) this.model.getEntry(indexEntry, groupIndex);
+            data[0] = entry.getUsername();
+            data[1] = entry.getPassword();
+            data[2] = entry.getNotes();
+            model.addRow(data);
+        }
+    }
+
+    private void addEmailtoModel(DefaultTableModel model) {
+        String[] data = new String[3];
+        int groupIndex = IDs.ENTRYINTERNET.getID();
+        for (int indexEntry = 0; indexEntry < this.model.getSize(groupIndex); ++indexEntry) {
+            EntryEmail entry = (EntryEmail) this.model.getEntry(indexEntry, groupIndex);
+            data[0] = entry.getUsername();
+            data[1] = entry.getPassword();
+            data[2] = entry.getEmail();
+            model.addRow(data);
         }
     }
 
