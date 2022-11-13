@@ -74,6 +74,13 @@ public class LoginForm implements Form {
     private void insertEntriesFromFile() {
         FileHandler handler = model.getFileHandler();
         int lineNumbers = handler.getNumberLines();
+        int columnmaxcount = -1;
+        for (IDs value : IDs.values()) {
+            if (columnmaxcount < value.getColumns().length) {
+                columnmaxcount = value.getColumns().length;
+            }
+        }
+        columnmaxcount++;
         for (int lineindex = 2; lineindex <= lineNumbers; ++lineindex) {
             String line = null;
             try {
@@ -81,10 +88,14 @@ public class LoginForm implements Form {
             } catch (FilePathIsNullException e) {
                 throw new RuntimeException(e);
             }
-            String[] decrypted = new String[4];
+            String[] decrypted = new String[columnmaxcount];
             String[] temp = model.getInstanceEnc().decrypt(line).split(" ");
-            for (int i = 0; i < temp.length; ++i) {
-                decrypted[i] = temp[i];
+            for (int i = 0; i < columnmaxcount; ++i) {
+                if (i < temp.length) {
+                    decrypted[i] = temp[i];
+                } else {
+                    decrypted[i] = "";
+                }
             }
             int IDindex = Integer.parseInt(decrypted[0]);
             IDs ID = IDs.values()[IDindex];
