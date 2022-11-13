@@ -81,24 +81,28 @@ public class LoginForm implements Form {
             } catch (FilePathIsNullException e) {
                 throw new RuntimeException(e);
             }
-            String[] decrypted = model.getInstanceEnc().decrypt(line).split(" ");
+            String[] decrypted = new String[4];
+            String[] temp = model.getInstanceEnc().decrypt(line).split(" ");
+            for (int i = 0; i < temp.length; ++i) {
+                decrypted[i] = temp[i];
+            }
             int IDindex = Integer.parseInt(decrypted[0]);
             IDs ID = IDs.values()[IDindex];
-            switch (ID){
-                case ENTRY:{
-                    model.addEntry(decrypted[1],decrypted[2]);
+            switch (ID) {
+                case ENTRY: {
+                    model.addEntry(decrypted[1], decrypted[2]);
                     break;
                 }
-                case ENTRYEMAIL:{
-                    model.addEntryEmail(decrypted[1],decrypted[2],decrypted[3]);
+                case ENTRYEMAIL: {
+                    model.addEntryEmail(decrypted[1], decrypted[2], decrypted[3]);
                     break;
                 }
                 case ENTRYINTERNET: {
-                    model.addEntryInternet(decrypted[1],decrypted[2],decrypted[3]);
+                    model.addEntryInternet(decrypted[1], decrypted[2], decrypted[3]);
                     break;
                 }
-                case ENTRYGENERAL:{
-                    model.addEntryGeneral(decrypted[1],decrypted[2],decrypted[3]);
+                case ENTRYGENERAL: {
+                    model.addEntryGeneral(decrypted[1], decrypted[2], decrypted[3]);
                     break;
                 }
             }
@@ -131,11 +135,12 @@ public class LoginForm implements Form {
 
     }
 
-    private void reset(){
+    private void reset() {
         errorLabel.setText("");
         pleaseEnterYourMasterPasswordField.setText("");
         fileNameLabel.setText("");
     }
+
     @Override
     public JPanel getPanel() {
         return mainPanel;

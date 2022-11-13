@@ -65,10 +65,10 @@ public class PasswordManagerModel {
         return forms;
     }
 
-    public void clearEntries(){
-        for(ArrayList EntryGroup : entries){
+    public void clearEntries() {
+        for (ArrayList EntryGroup : entries) {
             int index;
-            while((index = EntryGroup.size()-1) >= 0){
+            while ((index = EntryGroup.size() - 1) >= 0) {
                 EntryGroup.remove(index);
             }
         }
@@ -82,9 +82,10 @@ public class PasswordManagerModel {
         entries.get(IDs.ENTRY.getID()).add(new Entry(username, password));
     }
 
-    public void addEntry(String username){
+    public void addEntry(String username) {
         entries.get(IDs.ENTRY.getID()).add(new Entry(username));
     }
+
     public void addEntryGeneral(String username, char[] password, String notes) {
         entries.get(IDs.ENTRYGENERAL.getID()).add(new EntryGeneral(username, new String(password), notes));
     }
@@ -92,9 +93,11 @@ public class PasswordManagerModel {
     public void addEntryGeneral(String username, String password, String notes) {
         entries.get(IDs.ENTRYGENERAL.getID()).add(new EntryGeneral(username, password, notes));
     }
+
     public void addEntryGeneral(String username, String notes) {
         entries.get(IDs.ENTRYGENERAL.getID()).add(new EntryGeneral(username, notes));
     }
+
     public void addEntryEmail(String username, char[] password, String email) {
         entries.get(IDs.ENTRYEMAIL.getID()).add(new EntryEmail(username, new String(password), email));
     }
@@ -102,9 +105,11 @@ public class PasswordManagerModel {
     public void addEntryEmail(String username, String password, String email) {
         entries.get(IDs.ENTRYEMAIL.getID()).add(new EntryEmail(username, password, email));
     }
+
     public void addEntryEmail(String username, String email) {
         entries.get(IDs.ENTRYEMAIL.getID()).add(new EntryEmail(username, email));
     }
+
     public void addEntryInternet(String username, char[] password, String URL) {
         entries.get(IDs.ENTRYINTERNET.getID()).add(new EntryInternet(username, new String(password), URL));
     }
@@ -112,6 +117,7 @@ public class PasswordManagerModel {
     public void addEntryInternet(String username, String password, String URL) {
         entries.get(IDs.ENTRYINTERNET.getID()).add(new EntryInternet(username, password, URL));
     }
+
     public void addEntryInternet(String username, String URL) {
         entries.get(IDs.ENTRYINTERNET.getID()).add(new EntryInternet(username, URL));
     }
@@ -135,8 +141,9 @@ public class PasswordManagerModel {
         }
         return null;
     }
-    public int getSize(int group){
-        if(entries.size() > group){
+
+    public int getSize(int group) {
+        if (entries.size() > group) {
             return entries.get(group).size();
         }
         return -1;
