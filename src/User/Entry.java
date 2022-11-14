@@ -1,10 +1,7 @@
 package User;
 
-import Forms.PasswordMenu;
 import RandomPasswordGenerator.PassGen;
 import RandomPasswordGenerator.PassGenException;
-
-import javax.swing.table.AbstractTableModel;
 
 public class Entry {
     protected String username;

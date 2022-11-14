@@ -16,10 +16,9 @@ public class FileHandler {
     private Path filePath;
 
 
-
     public FileHandler(String filePath, String folderPath) {
         this.folderPath = folderPath;
-        this.filePath = new File(folderPath + filePath).toPath();
+        this.filePath = new File(folderPath + filePath + fileFormat).toPath();
         File file = new File(folderPath);
         if (!file.exists()) {
             file.mkdir();
@@ -28,7 +27,7 @@ public class FileHandler {
     }
 
     public FileHandler(String filePath) {
-        this.filePath = new File(folderPath + filePath).toPath();
+        this.filePath = new File(folderPath + filePath + fileFormat).toPath();
         File file = new File(folderPath);
         if (!file.exists()) {
             file.mkdir();
@@ -131,6 +130,25 @@ public class FileHandler {
         }
     }
 
+    public boolean rename(String newName) throws FilePathIsNullException {
+        if (filePath != null) {
+            File currentFile = filePath.toFile();
+            File renameFile = new File(folderPath + newName + fileFormat);
+            return currentFile.renameTo(renameFile);
+        } else {
+            throw new FilePathIsNullException("No file selected");
+        }
+    }
+
+    public boolean rename(Path dest) throws FilePathIsNullException {
+        if (filePath != null) {
+            File currentFile = filePath.toFile();
+            File renameFile = dest.toFile();
+            return currentFile.renameTo(renameFile);
+        } else {
+            throw new FilePathIsNullException("No file selected");
+        }
+    }
 
     public int getNumberLines() {
         if (filePath == null) {

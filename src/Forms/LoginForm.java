@@ -131,7 +131,7 @@ public class LoginForm implements Form {
             }
             model.getInstanceEnc().init(password);
             if (encryptedPassword.equals(String.valueOf(model.getInstanceEnc().encryptedMasterPassword()))) {
-                PasswordMenu form = (PasswordMenu) model.getForms().get(FormsID.PASSWORDMENU.getID());
+                PasswordMenuForm form = (PasswordMenuForm) model.getForms().get(FormsID.PASSWORDMENU.getID());
                 insertEntriesFromFile();
                 form.initTable();
                 reset();

@@ -14,7 +14,6 @@ public class PasswordManagerModel {
     private FileHandler fileHandler;
     private Encryption instanceEnc;
     private ArrayList<Form> forms;
-
     private static PasswordManagerModel instance;
 
     private PasswordManagerModel() {

@@ -2,7 +2,6 @@ package Launcher;
 
 import Forms.*;
 import Model.PasswordManagerModel;
-import User.IDs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +43,6 @@ public class Launcher {
         forms.add(FormsID.MAINMENU.getID(),new MainMenuForm(parentPanel,dictForm));
         forms.add(FormsID.CREATE.getID(),new CreateForm(parentPanel,dictForm));
         forms.add(FormsID.LOGIN.getID(),new LoginForm(parentPanel,dictForm));
-        forms.add(FormsID.PASSWORDMENU.getID(),new PasswordMenu(parentPanel,dictForm));
+        forms.add(FormsID.PASSWORDMENU.getID(),new PasswordMenuForm(parentPanel,dictForm));
     }
 }

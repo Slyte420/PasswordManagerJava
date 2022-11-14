@@ -1,7 +1,6 @@
 package Forms;
 
 import InputOutputHandling.FileHandler;
-import InputOutputHandling.FileNameInvalid;
 import InputOutputHandling.FilePathIsNullException;
 import Launcher.FormsID;
 import Model.PasswordManagerModel;
@@ -15,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Dictionary;
 
-public class PasswordMenu implements Form {
+public class PasswordMenuForm implements Form {
     private JPanel parent;
     private JPanel mainPanel;
     private JTabbedPane tabbedPane;
@@ -28,13 +27,14 @@ public class PasswordMenu implements Form {
     private JButton setMasterPasswordButton;
     private JButton backButton;
 
+    private Thread saveThread;
     private ArrayList<JTable> tables;
     private Dictionary panels;
     private PasswordManagerModel model;
     private final String name = "PasswordMenu";
 
 
-    public PasswordMenu(JPanel parent, Dictionary panels) {
+    public PasswordMenuForm(JPanel parent, Dictionary panels) {
         this.parent = parent;
         this.panels = panels;
         model = PasswordManagerModel.getInstance();
@@ -67,19 +67,19 @@ public class PasswordMenu implements Form {
             public void actionPerformed(ActionEvent e) {
                 IDs selected = IDs.values()[tabbedPane.getSelectedIndex()];
                 switch (selected) {
-                    case ENTRY: {
+                    case ENTRY -> {
                         editEntry();
                         break;
                     }
-                    case ENTRYINTERNET: {
+                    case ENTRYINTERNET -> {
                         editEntryInternet();
                         break;
                     }
-                    case ENTRYEMAIL: {
+                    case ENTRYEMAIL -> {
                         editEntryEmail();
                         break;
                     }
-                    case ENTRYGENERAL: {
+                    case ENTRYGENERAL -> {
                         editEntryGeneral();
                         break;
                     }
@@ -102,21 +102,28 @@ public class PasswordMenu implements Form {
         Save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveFile();
+                saveFile(false);
             }
         });
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveFile();
-                model.getInstanceEnc().reset();
-                model.clearEntries();
+                saveFile(true);
                 resetTables();
+                while (saveThread.isAlive()) {
+                    System.out.println("Still saving");
+                }
                 tabbedPane.setSelectedIndex(IDs.ENTRY.getID());
                 CardLayout cl = (CardLayout) parent.getLayout();
                 cl.show(parent, (String) panels.get(FormsID.MAINMENU.getID()));
             }
         });
+    }
+
+
+    private void reset(PasswordManagerModel model) {
+        model.getInstanceEnc().reset();
+        model.clearEntries();
     }
 
 
@@ -132,7 +139,7 @@ public class PasswordMenu implements Form {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-        PasswordMenu menu = new PasswordMenu(null, null);
+        PasswordMenuForm menu = new PasswordMenuForm(null, null);
         frame.setContentPane(menu.getPanel());
         frame.setMinimumSize(new Dimension(800, 600));
         frame.setResizable(false);
@@ -160,11 +167,11 @@ public class PasswordMenu implements Form {
     }
 
 
-    private void resetTables(){
-        for(JTable table : tables){
-            DefaultTableModel model =(DefaultTableModel) table.getModel();
+    private void resetTables() {
+        for (JTable table : tables) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
             int rowIndex;
-            while((rowIndex = model.getRowCount()-1) >= 0){
+            while ((rowIndex = model.getRowCount() - 1) >= 0) {
                 model.removeRow(rowIndex);
             }
         }
@@ -175,19 +182,19 @@ public class PasswordMenu implements Form {
         for (IDs ID_value : IDs.values()) {
             DefaultTableModel model = (DefaultTableModel) tables.get(ID_value.getID()).getModel();
             switch (ID_value) {
-                case ENTRY: {
+                case ENTRY -> {
                     addEntrytoModel(model);
                     break;
                 }
-                case ENTRYINTERNET: {
+                case ENTRYINTERNET -> {
                     addInternettoModel(model);
                     break;
                 }
-                case ENTRYEMAIL: {
+                case ENTRYEMAIL -> {
                     addEmailtoModel(model);
                     break;
                 }
-                case ENTRYGENERAL: {
+                case ENTRYGENERAL -> {
                     addGeneraltoModel(model);
                     break;
                 }
@@ -445,24 +452,37 @@ public class PasswordMenu implements Form {
             } catch (FilePathIsNullException e) {
                 throw new RuntimeException(e);
             }
-            saveFile();
+            saveFile(false);
         }
     }
 
-    private void saveFile() {
+    private void saveFile(boolean isExit) {
+        saveThread = new Thread(() -> saveFileRunnable(model, isExit));
+        saveThread.start();
+    }
+
+    private void saveFileRunnable(PasswordManagerModel model, boolean isExit) {
         try {
             FileHandler fileHandler = model.getFileHandler();
+            FileHandler temp = new FileHandler("temp.db");
+            temp.write(fileHandler.read(1));
             for (int groupIndex = 0; groupIndex < IDs.values().length; ++groupIndex) {
                 for (int entryIndex = 0; entryIndex < model.getSize(groupIndex); ++entryIndex) {
                     Entry entry = model.getEntry(entryIndex, groupIndex);
                     String writeLine = model.getInstanceEnc().encrypt(entry.toString());
-                    if (!fileHandler.containsLine(writeLine)) {
-                        fileHandler.write(writeLine);
+                    if (!temp.containsLine(writeLine)) {
+                        temp.write(writeLine);
                     }
                 }
             }
+            fileHandler.deleteFile();
+            temp.rename(fileHandler.getFilePath());
         } catch (FilePathIsNullException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (isExit) {
+                reset(model);
+            }
         }
     }
 }
