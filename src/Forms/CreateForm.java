@@ -44,7 +44,7 @@ public class CreateForm implements Form {
                 String name = enterTheNameForTextField.getText();
                 if (!name.isEmpty()) {
                     char[] password = pleaseEnterTheMasterPasswordField.getPassword();
-                    if (PassGen.validPassword(password)) {
+                    if (!PassGen.validPassword(password)) {
                         errorLabel.setText("Password is invalid!");
                     } else {
                         errorLabel.setText("");
