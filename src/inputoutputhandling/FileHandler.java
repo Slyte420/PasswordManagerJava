@@ -1,4 +1,4 @@
-package InputOutputHandling;
+package inputoutputhandling;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -172,6 +172,10 @@ public class FileHandler {
             File file = filePath.toFile();
             return file.delete();
         }
+    }
+
+    public void resetFilePath(){
+        filePath = null;
     }
 
     @Override

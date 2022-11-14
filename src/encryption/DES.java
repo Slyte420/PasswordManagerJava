@@ -1,4 +1,4 @@
-package Encryption;
+package encryption;
 
 import javax.crypto.*;
 import javax.crypto.spec.DESedeKeySpec;

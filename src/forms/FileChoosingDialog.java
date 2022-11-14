@@ -1,4 +1,4 @@
-package Forms;
+package forms;
 
 import java.awt.*;
 

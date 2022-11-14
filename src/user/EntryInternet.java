@@ -1,4 +1,4 @@
-package User;
+package user;
 
 public class EntryInternet extends Entry{
     private String URL;

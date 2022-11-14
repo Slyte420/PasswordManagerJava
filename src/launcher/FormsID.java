@@ -1,4 +1,4 @@
-package Launcher;
+package launcher;
 
 public enum FormsID {
     MAINMENU(0),

@@ -1,4 +1,4 @@
-package Encryption;
+package encryption;
 
 public interface Encryption {
     public void init(char[] password);

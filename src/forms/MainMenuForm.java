@@ -1,12 +1,11 @@
-package Forms;
+package forms;
 
-import Launcher.FormsID;
+import launcher.FormsID;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Dictionary;
 
 public class MainMenuForm implements Form {

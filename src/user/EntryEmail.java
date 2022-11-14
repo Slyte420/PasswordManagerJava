@@ -1,4 +1,4 @@
-package User;
+package user;
 
 public class EntryEmail extends Entry {
     private static final int ID = IDs.ENTRYEMAIL.getID();

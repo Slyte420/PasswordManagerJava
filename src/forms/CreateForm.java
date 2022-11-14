@@ -1,10 +1,10 @@
-package Forms;
+package forms;
 
-import InputOutputHandling.FileNameInvalid;
-import InputOutputHandling.FilePathIsNullException;
-import Launcher.FormsID;
-import Model.PasswordManagerModel;
-import RandomPasswordGenerator.PassGen;
+import inputoutputhandling.FileNameInvalid;
+import inputoutputhandling.FilePathIsNullException;
+import launcher.FormsID;
+import model.PasswordManagerModel;
+import randompasswordgenerator.PassGen;
 
 import javax.swing.*;
 import java.awt.*;

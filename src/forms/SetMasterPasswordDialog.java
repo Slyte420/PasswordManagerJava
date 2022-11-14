@@ -1,6 +1,6 @@
-package Forms;
+package forms;
 
-import RandomPasswordGenerator.PassGen;
+import randompasswordgenerator.PassGen;
 
 import javax.swing.*;
 import java.awt.*;

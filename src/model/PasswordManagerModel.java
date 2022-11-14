@@ -1,13 +1,12 @@
-package Model;
+package model;
 
-import Encryption.DES;
-import Encryption.Encryption;
-import Forms.Form;
-import InputOutputHandling.FileHandler;
-import User.*;
+import encryption.DES;
+import encryption.Encryption;
+import forms.Form;
+import inputoutputhandling.FileHandler;
+import user.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PasswordManagerModel {
     private ArrayList<ArrayList<Entry>> entries;

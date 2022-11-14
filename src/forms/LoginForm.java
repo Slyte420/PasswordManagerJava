@@ -1,11 +1,11 @@
-package Forms;
+package forms;
 
-import InputOutputHandling.FileHandler;
-import InputOutputHandling.FileNameInvalid;
-import InputOutputHandling.FilePathIsNullException;
-import Launcher.FormsID;
-import Model.PasswordManagerModel;
-import User.IDs;
+import inputoutputhandling.FileHandler;
+import inputoutputhandling.FileNameInvalid;
+import inputoutputhandling.FilePathIsNullException;
+import launcher.FormsID;
+import model.PasswordManagerModel;
+import user.IDs;
 
 import javax.swing.*;
 import java.awt.*;

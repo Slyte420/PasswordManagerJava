@@ -1,7 +1,6 @@
-package RandomPasswordGenerator;
+package randompasswordgenerator;
 
 import java.security.SecureRandom;
-import java.util.Objects;
 import java.util.Random;
 
 public class PassGen {

@@ -1,6 +1,8 @@
-package Launcher;
+package threadfunctions;
 
-public class ThreadLauncher implements Runnable {
+import launcher.Launcher;
+
+public class ThreadLauncher extends Thread{
     @Override
     public void run() {
         new Launcher();

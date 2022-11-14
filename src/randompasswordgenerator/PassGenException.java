@@ -1,4 +1,4 @@
-package RandomPasswordGenerator;
+package randompasswordgenerator;
 
 public class PassGenException extends Exception{
     public PassGenException(String message){

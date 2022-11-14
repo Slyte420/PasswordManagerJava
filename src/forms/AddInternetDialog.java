@@ -1,11 +1,10 @@
-package Forms;
+package forms;
 
-import RandomPasswordGenerator.PassGen;
+import randompasswordgenerator.PassGen;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.URL;
 
 public class AddInternetDialog extends JDialog {
     private JPanel contentPane;

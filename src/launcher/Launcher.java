@@ -1,7 +1,7 @@
-package Launcher;
+package launcher;
 
-import Forms.*;
-import Model.PasswordManagerModel;
+import forms.*;
+import model.PasswordManagerModel;
 
 import javax.swing.*;
 import java.awt.*;

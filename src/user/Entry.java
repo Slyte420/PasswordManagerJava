@@ -1,7 +1,7 @@
-package User;
+package user;
 
-import RandomPasswordGenerator.PassGen;
-import RandomPasswordGenerator.PassGenException;
+import randompasswordgenerator.PassGen;
+import randompasswordgenerator.PassGenException;
 
 public class Entry {
     protected String username;
