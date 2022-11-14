@@ -18,10 +18,10 @@ public class ThreadSaveFile extends Thread {
 
     @Override
     public void run() {
-        saveFileRunnable(model,isExit);
+        saveFileRunnable();
     }
 
-    private void saveFileRunnable(PasswordManagerModel model, boolean isExit) {
+    private void saveFileRunnable() {
         try {
             FileHandler fileHandler = model.getFileHandler();
             FileHandler temp = new FileHandler("temp.db");
@@ -41,11 +41,11 @@ public class ThreadSaveFile extends Thread {
             throw new RuntimeException(e);
         } finally {
             if (isExit) {
-                reset(model);
+                reset();
             }
         }
     }
-    private void reset(PasswordManagerModel model) {
+    private void reset() {
         model.getInstanceEnc().reset();
         model.clearEntries();
         model.getFileHandler().resetFilePath();

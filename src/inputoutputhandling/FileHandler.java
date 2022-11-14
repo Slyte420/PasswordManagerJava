@@ -43,12 +43,12 @@ public class FileHandler {
 
     }
 
-    public void setFilePath(String filePath) throws FileNameInvalid {
+    public void setFilePath(String filePath) throws FileNameInvalidException {
         File file = new File(folderPath + filePath + fileFormat);
         try {
             this.filePath = file.toPath();
         } catch (InvalidPathException e) {
-            throw new FileNameInvalid("File name invalid");
+            throw new FileNameInvalidException("File name invalid");
         }
     }
 
@@ -115,13 +115,13 @@ public class FileHandler {
         return false;
     }
 
-    public String read(int linenumber) throws FilePathIsNullException {
+    public String read(int lineNumber) throws FilePathIsNullException {
         if (filePath == null) {
             throw new FilePathIsNullException("No file selected");
         }
         try (BufferedReader in = new BufferedReader(new InputStreamReader(Files.newInputStream(filePath)))) {
             String line = null;
-            for (int i = 1; i <= linenumber && (line = in.readLine()) != null; ++i) {
+            for (int i = 1; i <= lineNumber && (line = in.readLine()) != null; ++i) {
 
             }
             return line;

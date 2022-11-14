@@ -1,6 +1,6 @@
 package forms;
 
-import inputoutputhandling.FileNameInvalid;
+import inputoutputhandling.FileNameInvalidException;
 import inputoutputhandling.FilePathIsNullException;
 import launcher.FormsID;
 import model.PasswordManagerModel;
@@ -59,7 +59,7 @@ public class CreateForm implements Form {
                                 CardLayout cl = (CardLayout) parent.getLayout();
                                 cl.show(parent,(String) panels.get(FormsID.PASSWORDMENU.getID()));
                             }
-                        } catch (FileNameInvalid exc) {
+                        } catch (FileNameInvalidException exc) {
                             errorLabel.setText(exc.getMessage());
                         } catch (FilePathIsNullException ex) {
                             throw new RuntimeException(ex);

@@ -1,7 +1,7 @@
 package forms;
 
 import inputoutputhandling.FileHandler;
-import inputoutputhandling.FileNameInvalid;
+import inputoutputhandling.FileNameInvalidException;
 import inputoutputhandling.FilePathIsNullException;
 import launcher.FormsID;
 import model.PasswordManagerModel;
@@ -64,7 +64,7 @@ public class LoginForm implements Form {
             filename = filename.replace(model.getFileHandler().getFileFormat(), "");
             try {
                 model.getFileHandler().setFilePath(filename);
-            } catch (FileNameInvalid e) {
+            } catch (FileNameInvalidException e) {
                 throw new RuntimeException(e);
             }
         }
