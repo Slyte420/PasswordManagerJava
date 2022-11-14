@@ -19,7 +19,7 @@ public class Launcher {
         dictForm = new Hashtable();
         forms = new ArrayList<Form>();
         parentPanel = new JPanel(new CardLayout());
-        initform();
+        initForm();
         initDictCardPanel();
         PasswordManagerModel.getInstance().setForms(forms);
         mainFrame.setTitle("Password Manager");
@@ -39,7 +39,7 @@ public class Launcher {
             dictForm.put(ID,name);
         }
     }
-    private void initform(){
+    private void initForm(){
         forms.add(FormsID.MAINMENU.getID(),new MainMenuForm(parentPanel,dictForm));
         forms.add(FormsID.CREATE.getID(),new CreateForm(parentPanel,dictForm));
         forms.add(FormsID.LOGIN.getID(),new LoginForm(parentPanel,dictForm));

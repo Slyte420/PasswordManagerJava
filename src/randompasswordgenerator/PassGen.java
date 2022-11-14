@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class PassGen {
 
-    private static final String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
-    private static final String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final String numbers = "0123456789";
+    private static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    private static final String UPPER_CASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String NUMBERS = "0123456789";
     private static String specialCharacthers = "@!./?<>;[]\\(){}";
     private String customCharacthers;
     private boolean lower;
@@ -52,11 +52,11 @@ public class PassGen {
 
 
     public String getLowerCaseLetters() {
-        return lowerCaseLetters;
+        return LOWER_CASE_LETTERS;
     }
 
     public String getNumbers() {
-        return numbers;
+        return NUMBERS;
     }
 
     public String getSpecialCharacthers() {
@@ -64,7 +64,7 @@ public class PassGen {
     }
 
     public String getUpperCaseLetters() {
-        return upperCaseLetters;
+        return UPPER_CASE_LETTERS;
     }
 
 
@@ -98,13 +98,13 @@ public class PassGen {
         char[] password = new char[length];
         String combinedchar = "";
         if (lower) {
-            combinedchar = combinedchar + lowerCaseLetters;
+            combinedchar = combinedchar + LOWER_CASE_LETTERS;
         }
         if (upper) {
-            combinedchar = combinedchar + upperCaseLetters;
+            combinedchar = combinedchar + UPPER_CASE_LETTERS;
         }
         if (number) {
-            combinedchar = combinedchar + numbers;
+            combinedchar = combinedchar + NUMBERS;
         }
         if (special) {
             combinedchar = combinedchar + specialCharacthers;
@@ -129,7 +129,7 @@ public class PassGen {
         if(!(username.length() > 0 && username.length() <= 32)){
             return false;
         }
-        if(username.contains(":")){
+        if(username.contains(" ")){
             return false;
         }
         return true;
@@ -150,19 +150,19 @@ public class PassGen {
             if (specialCharacthers.contains("" + password[i])) {
                 special = true;
             }
-            if (upperCaseLetters.contains("" + password[i])) {
+            if (UPPER_CASE_LETTERS.contains("" + password[i])) {
                 big = true;
             }
-            if (lowerCaseLetters.contains("" + password[i])) {
+            if (LOWER_CASE_LETTERS.contains("" + password[i])) {
                 small = true;
             }
-            if (numbers.contains("" + password[i])) {
+            if (NUMBERS.contains("" + password[i])) {
                 number = true;
             }
         }
         return (special && big && small && number);
     }
     public static boolean validOther(String other){
-        return !other.contains(":");
+        return !other.contains(" ");
     }
 }
