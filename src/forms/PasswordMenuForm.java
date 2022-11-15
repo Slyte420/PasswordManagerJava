@@ -129,16 +129,7 @@ public class PasswordMenuForm implements Form {
     public JPanel getPanel() {
         return mainPanel;
     }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        PasswordMenuForm menu = new PasswordMenuForm(null, null);
-        frame.setContentPane(menu.getPanel());
-        frame.setMinimumSize(new Dimension(800, 600));
-        frame.setResizable(false);
-        frame.setVisible(true);
-    }
-
+    
     private void createUIComponents() {
         tables = new ArrayList<JTable>();
         tabbedPane = new JTabbedPane(SwingConstants.TOP);

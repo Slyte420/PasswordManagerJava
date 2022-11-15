@@ -13,7 +13,7 @@ public class AddEntryDialog extends JDialog {
     private JTextField usernameTextField;
     private JTextField passwordTextField;
     private JLabel errorLabel;
-    private JPanel buttomPanel;
+    private JPanel bottomPanel;
     private JPanel textPanel;
 
     private String username;
@@ -92,12 +92,5 @@ public class AddEntryDialog extends JDialog {
 
     public boolean isCancelled(){
         return cancelled;
-    }
-
-    public static void main(String[] args) {
-        AddEntryDialog dialog = new AddEntryDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.out.println(dialog.getPassword());
     }
 }

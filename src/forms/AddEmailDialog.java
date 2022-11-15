@@ -102,11 +102,4 @@ public class AddEmailDialog extends JDialog {
     public boolean isCancelled() {
         return cancelled;
     }
-
-    public static void main(String[] args) {
-        AddEmailDialog dialog = new AddEmailDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
 }

@@ -102,11 +102,4 @@ public class AddGeneralDialog extends JDialog {
     public boolean isCancelled() {
         return cancelled;
     }
-
-    public static void main(String[] args) {
-        AddGeneralDialog dialog = new AddGeneralDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
 }
