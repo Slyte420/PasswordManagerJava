@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="3e63f" class="javax.swing.JPasswordField" binding="pleaseEnterYourMasterPasswordField" default-binding="true">
+      <component id="3e63f" class="javax.swing.JPasswordField" binding="pleaseEnterTheMasterPasswordField">
         <constraints>
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="250" height="-1"/>

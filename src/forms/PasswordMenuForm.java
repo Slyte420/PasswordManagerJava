@@ -23,7 +23,7 @@ public class PasswordMenuForm implements Form {
     private JButton deleteButton;
     private JPanel bottomPanel;
     private JPanel topPanel;
-    private JButton Save;
+    private JButton saveButton;
     private JButton setMasterPasswordButton;
     private JButton backButton;
 
@@ -99,7 +99,7 @@ public class PasswordMenuForm implements Form {
                 setMasterPassword();
             }
         });
-        Save.addActionListener(new ActionListener() {
+        saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveFile(false);

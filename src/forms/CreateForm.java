@@ -24,8 +24,7 @@ public class CreateForm implements Form {
     private JLabel errorLabel;
     private Dictionary panels;
     private PasswordManagerModel model;
-    private final Dimension size = new Dimension(650, 550);
-    private final String name = "Create";
+    private static final String NAME = "Create";
 
     public CreateForm(JPanel parent, Dictionary panels) {
         this.parent = parent;
@@ -56,6 +55,7 @@ public class CreateForm implements Form {
                                 model.getInstanceEnc().init(password);
                                 model.getFileHandler().write( new String(model.getInstanceEnc().encryptedMasterPassword()));
                                 Arrays.fill(password,(char)0);
+                                reset();
                                 CardLayout cl = (CardLayout) parent.getLayout();
                                 cl.show(parent,(String) panels.get(FormsID.PASSWORDMENU.getID()));
                             }
@@ -84,6 +84,6 @@ public class CreateForm implements Form {
 
     @Override
     public String getCardName() {
-        return name;
+        return NAME;
     }
 }

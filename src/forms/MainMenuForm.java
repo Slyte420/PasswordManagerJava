@@ -13,10 +13,8 @@ public class MainMenuForm implements Form {
     private JPanel mainPanel;
     private JButton createButton;
     private JButton loginButton;
-
     private Dictionary panels;
-
-    private final String name = "MainMenu";
+    private static final String NAME = "MainMenu";
     public MainMenuForm(JPanel parent,Dictionary panels) {
     this.parent = parent;
     this.panels = panels;
@@ -43,6 +41,6 @@ public class MainMenuForm implements Form {
 
     @Override
     public String getCardName() {
-        return name;
+        return NAME;
     }
 }

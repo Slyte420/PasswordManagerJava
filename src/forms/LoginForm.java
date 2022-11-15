@@ -17,7 +17,7 @@ public class LoginForm implements Form {
     private JPanel parent;
     private JPanel mainPanel;
 
-    private JPasswordField pleaseEnterYourMasterPasswordField;
+    private JPasswordField pleaseEnterTheMasterPasswordField;
     private JButton loginButton;
     private JLabel errorLabel;
     private JButton loadButton;
@@ -25,8 +25,8 @@ public class LoginForm implements Form {
     private JLabel fileNameLabel;
     private Dictionary panels;
     private PasswordManagerModel model;
-    private final String name = "LoginForm";
-    private final Dimension size = new Dimension(350, 350);
+    private static final String NAME = "LoginForm";
+
 
     public LoginForm(JPanel parent, Dictionary panels) {
         this.parent = parent;
@@ -121,7 +121,7 @@ public class LoginForm implements Form {
     }
 
     private void loginIntoFile() {
-        char[] password = pleaseEnterYourMasterPasswordField.getPassword();
+        char[] password = pleaseEnterTheMasterPasswordField.getPassword();
         String encryptedPassword;
         try {
             encryptedPassword = model.getFileHandler().read(1);
@@ -148,7 +148,7 @@ public class LoginForm implements Form {
 
     private void reset() {
         errorLabel.setText("");
-        pleaseEnterYourMasterPasswordField.setText("");
+        pleaseEnterTheMasterPasswordField.setText("");
         fileNameLabel.setText("");
     }
 
@@ -159,6 +159,6 @@ public class LoginForm implements Form {
 
     @Override
     public String getCardName() {
-        return name;
+        return NAME;
     }
 }
