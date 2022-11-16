@@ -129,7 +129,7 @@ public class PasswordMenuForm implements Form {
     public JPanel getPanel() {
         return mainPanel;
     }
-    
+
     private void createUIComponents() {
         tables = new ArrayList<JTable>();
         tabbedPane = new JTabbedPane(SwingConstants.TOP);
@@ -441,6 +441,11 @@ public class PasswordMenuForm implements Form {
     }
 
     private void saveFile(boolean isExit) {
-        saveThread = new ThreadSaveFile(model,isExit);
-        saveThread.start();     }
+        if (saveThread != null) {
+            while (saveThread.isAlive()) {
+            }
+        }
+        saveThread = new ThreadSaveFile(model, isExit);
+        saveThread.start();
+    }
 }

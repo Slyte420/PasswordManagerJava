@@ -33,6 +33,7 @@ public class CreateForm implements Form {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                reset();
                 CardLayout cl = (CardLayout) parent.getLayout();
                 cl.show(parent, (String) panels.get(FormsID.MAINMENU.getID()));
             }

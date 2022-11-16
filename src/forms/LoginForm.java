@@ -37,6 +37,7 @@ public class LoginForm implements Form {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                reset();
                 CardLayout cl = (CardLayout) parent.getLayout();
                 cl.show(parent, (String) panels.get(FormsID.MAINMENU.getID()));
             }
@@ -59,14 +60,18 @@ public class LoginForm implements Form {
     private void loadFile() {
         FileChoosingDialog diag = new FileChoosingDialog(model.getFileHandler().getFolderPath(), model.getFileHandler().getFileFormat());
         String filename = diag.getFile();
-        if (filename != null) {
+        if (filename != null && !filename.equals(model.getFileHandler().getFileFormat())) {
             fileNameLabel.setText(filename);
             filename = filename.replace(model.getFileHandler().getFileFormat(), "");
             try {
                 model.getFileHandler().setFilePath(filename);
             } catch (FileNameInvalidException e) {
+                errorLabel.setText(e.toString());
                 throw new RuntimeException(e);
             }
+        }
+        else{
+            errorLabel.setText("No file selected!");
         }
     }
 

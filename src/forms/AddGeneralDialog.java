@@ -78,7 +78,7 @@ public class AddGeneralDialog extends JDialog {
                 errorLabel.setText("Invalid username!");
             }
         } else {
-            errorLabel.setText("Invalid URL!");
+            errorLabel.setText("Invalid notes!");
         }
     }
 
