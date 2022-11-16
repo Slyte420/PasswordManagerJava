@@ -42,7 +42,7 @@ public class CreateForm implements Form {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = enterTheNameForTextField.getText();
-                if (!name.isEmpty()) {
+                if (!name.isEmpty() && !name.equals("temp")) {
                     char[] password = pleaseEnterTheMasterPasswordField.getPassword();
                     if (!PassGen.validPassword(password)) {
                         errorLabel.setText("Password is invalid!");
@@ -67,7 +67,7 @@ public class CreateForm implements Form {
                         }
                     }
                 } else {
-                    errorLabel.setText("No file name!");
+                    errorLabel.setText("No file name or wrong file name!");
                 }
             }
         });

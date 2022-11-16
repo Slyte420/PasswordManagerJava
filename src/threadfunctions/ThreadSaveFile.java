@@ -25,14 +25,13 @@ public class ThreadSaveFile extends Thread {
         try {
             FileHandler fileHandler = model.getFileHandler();
             FileHandler temp = new FileHandler("temp.db");
+            temp.deleteFile();
             temp.write(fileHandler.read(1));
             for (int groupIndex = 0; groupIndex < IDs.values().length; ++groupIndex) {
                 for (int entryIndex = 0; entryIndex < model.getSize(groupIndex); ++entryIndex) {
                     Entry entry = model.getEntry(entryIndex, groupIndex);
                     String writeLine = model.getInstanceEnc().encrypt(entry.toString());
-                    if (!temp.containsLine(writeLine)) {
-                        temp.write(writeLine);
-                    }
+                    temp.write(writeLine);
                 }
             }
             fileHandler.deleteFile();
