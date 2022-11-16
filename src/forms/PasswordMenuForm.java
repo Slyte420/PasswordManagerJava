@@ -9,6 +9,8 @@ import threadfunctions.ThreadSaveFile;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class PasswordMenuForm implements Form {
     private JButton saveButton;
     private JButton setMasterPasswordButton;
     private JButton backButton;
+    private JButton copyUsernameButton;
+    private JButton copyPasswordButton;
 
     private Thread saveThread;
     private ArrayList<JTable> tables;
@@ -116,6 +120,18 @@ public class PasswordMenuForm implements Form {
                 tabbedPane.setSelectedIndex(IDs.ENTRY.getID());
                 CardLayout cl = (CardLayout) parent.getLayout();
                 cl.show(parent, (String) panels.get(FormsID.MAINMENU.getID()));
+            }
+        });
+        copyUsernameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                usernameIntoClipboard();
+            }
+        });
+        copyPasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                passwordIntoClipboard();
             }
         });
     }
@@ -447,5 +463,29 @@ public class PasswordMenuForm implements Form {
         }
         saveThread = new ThreadSaveFile(model, isExit);
         saveThread.start();
+    }
+    private void usernameIntoClipboard(){
+        int selectedTab = tabbedPane.getSelectedIndex();
+        if (selectedTab != -1) {
+            int selectedRow = tables.get(selectedTab).getSelectedRow();
+            if (selectedRow != -1) {
+                Entry entry = model.getEntry(selectedRow,selectedTab);
+                StringSelection stringSelection = new StringSelection(entry.getUsername());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(stringSelection,stringSelection);
+            }
+        }
+    }
+    private void passwordIntoClipboard(){
+        int selectedTab = tabbedPane.getSelectedIndex();
+        if (selectedTab != -1) {
+            int selectedRow = tables.get(selectedTab).getSelectedRow();
+            if (selectedRow != -1) {
+                Entry entry = model.getEntry(selectedRow,selectedTab);
+                StringSelection stringSelection = new StringSelection(entry.getPassword());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(stringSelection,stringSelection);
+            }
+        }
     }
 }
